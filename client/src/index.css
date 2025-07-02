@@ -1,0 +1,228 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Modern IntelliServe Design System */
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(230, 15%, 15%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(230, 15%, 15%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(230, 15%, 15%);
+  --primary: hsl(262, 83%, 58%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(220, 14%, 96%);
+  --secondary-foreground: hsl(230, 15%, 15%);
+  --muted: hsl(220, 14%, 96%);
+  --muted-foreground: hsl(230, 10%, 45%);
+  --accent: hsl(270, 95%, 75%);
+  --accent-foreground: hsl(230, 15%, 15%);
+  --destructive: hsl(0, 72%, 51%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --border: hsl(220, 13%, 91%);
+  --input: hsl(220, 13%, 91%);
+  --ring: hsl(262, 83%, 58%);
+  --radius: 0.75rem;
+  
+  /* Custom IntelliServe Brand Colors */
+  --intelliserve-primary: #8B5CF6;    /* Purple */
+  --intelliserve-secondary: #1E293B;   /* Dark Blue-Gray */
+  --intelliserve-accent: #06B6D4;      /* Cyan */
+  --intelliserve-success: #10B981;     /* Green */
+  --intelliserve-warning: #F59E0B;     /* Amber */
+  --intelliserve-error: #EF4444;       /* Red */
+  
+  /* Gradient Definitions */
+  --gradient-primary: linear-gradient(135deg, #8B5CF6 0%, #06B6D4 100%);
+  --gradient-secondary: linear-gradient(135deg, #1E293B 0%, #334155 100%);
+  --gradient-success: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  --gradient-warning: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  --gradient-surface: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
+}
+
+.dark {
+  --background: hsl(230, 23%, 9%);
+  --foreground: hsl(230, 15%, 89%);
+  --card: hsl(230, 20%, 14%);
+  --card-foreground: hsl(230, 15%, 89%);
+  --popover: hsl(230, 20%, 14%);
+  --popover-foreground: hsl(230, 15%, 89%);
+  --primary: hsl(262, 83%, 68%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(230, 20%, 14%);
+  --secondary-foreground: hsl(230, 15%, 89%);
+  --muted: hsl(230, 20%, 14%);
+  --muted-foreground: hsl(230, 10%, 55%);
+  --accent: hsl(270, 95%, 75%);
+  --accent-foreground: hsl(230, 23%, 9%);
+  --destructive: hsl(0, 62%, 51%);
+  --destructive-foreground: hsl(230, 15%, 89%);
+  --border: hsl(230, 20%, 20%);
+  --input: hsl(230, 20%, 20%);
+  --ring: hsl(262, 83%, 68%);
+  
+  /* Dark mode brand colors */
+  --intelliserve-primary: #A78BFA;
+  --intelliserve-secondary: #0F172A;
+  --intelliserve-accent: #22D3EE;
+  
+  /* Dark mode gradients */
+  --gradient-primary: linear-gradient(135deg, #A78BFA 0%, #22D3EE 100%);
+  --gradient-secondary: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+  --gradient-surface: linear-gradient(135deg, #1E293B 0%, #334155 100%);
+}
+
+/* Modern Component Styles */
+.modern-card {
+  @apply bg-white dark:bg-gray-900 rounded-2xl shadow-lg border-0 overflow-hidden;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.dark .modern-card {
+  background: rgba(30, 41, 59, 0.8);
+}
+
+.gradient-primary {
+  background: var(--gradient-primary);
+}
+
+.gradient-secondary {
+  background: var(--gradient-secondary);
+}
+
+.gradient-success {
+  background: var(--gradient-success);
+}
+
+.gradient-warning {
+  background: var(--gradient-warning);
+}
+
+.gradient-surface {
+  background: var(--gradient-surface);
+}
+
+/* Glass morphism effects */
+.glass {
+  backdrop-filter: blur(16px) saturate(180%);
+  background-color: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.125);
+}
+
+.dark .glass {
+  background-color: rgba(30, 41, 59, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.125);
+}
+
+/* Enhanced button styles */
+.btn-modern {
+  @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg;
+}
+
+.btn-gradient {
+  @apply text-white shadow-lg;
+  background: linear-gradient(135deg, var(--intelliserve-primary) 0%, var(--intelliserve-accent) 100%);
+}
+
+.btn-gradient:hover {
+  box-shadow: 0 20px 25px -5px rgba(139, 92, 246, 0.3), 0 10px 10px -5px rgba(139, 92, 246, 0.2);
+}
+
+/* Animated elements */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 20px rgba(139, 92, 246, 0.5); }
+  to { box-shadow: 0 0 30px rgba(139, 92, 246, 0.8); }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+}
+
+/* Custom IntelliServe styles */
+.gradient-primary {
+  background: linear-gradient(135deg, var(--intelliserve-primary), #2563eb);
+}
+
+.gradient-secondary {
+  background: linear-gradient(135deg, var(--intelliserve-secondary), #0f172a);
+}
+
+.gradient-accent {
+  background: linear-gradient(135deg, var(--intelliserve-accent), #ea580c);
+}
+
+.text-intelliserve-primary {
+  color: var(--intelliserve-primary);
+}
+
+.text-intelliserve-secondary {
+  color: var(--intelliserve-secondary);
+}
+
+.text-intelliserve-accent {
+  color: var(--intelliserve-accent);
+}
+
+.bg-intelliserve-primary {
+  background-color: var(--intelliserve-primary);
+}
+
+.bg-intelliserve-secondary {
+  background-color: var(--intelliserve-secondary);
+}
+
+.bg-intelliserve-accent {
+  background-color: var(--intelliserve-accent);
+}
+
+.border-intelliserve-primary {
+  border-color: var(--intelliserve-primary);
+}
+
+.hover\:bg-intelliserve-primary:hover {
+  background-color: var(--intelliserve-primary);
+}
+
+.hover\:bg-intelliserve-accent:hover {
+  background-color: var(--intelliserve-accent);
+}
+
+/* Chatbot styles */
+.chat-bubble {
+  animation: bounce 0.3s ease-in-out;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Loading animations */
+.skeleton {
+  animation: skeleton-loading 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading {
+  0% { opacity: 1; }
+  100% { opacity: 0.4; }
+}
