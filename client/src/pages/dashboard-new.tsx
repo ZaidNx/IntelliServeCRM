@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Sidebar } from "@/components/sidebar-new";
-import { useAuth } from "@/hooks/useAuth";
-import { getAuthHeaders } from "@/lib/auth";
+import { useEffect, useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Sidebar } from '@/components/sidebar-new';
+import { useAuth } from '@/hooks/useAuth';
+import { getAuthHeaders } from '@/lib/auth';
 import {
   Calendar,
   Clock,
@@ -18,16 +18,16 @@ import {
   BarChart3,
   Zap,
   X,
-} from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
+} from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 
 interface DashboardStats {
   totalAppointments: number;
@@ -56,7 +56,7 @@ export default function Dashboard() {
 
   const fetchDashboardStats = async () => {
     try {
-      const response = await fetch("/api/dashboard/stats", {
+      const response = await fetch('/api/dashboard/stats', {
         headers: getAuthHeaders(),
       });
       if (response.ok) {
@@ -64,7 +64,7 @@ export default function Dashboard() {
         setStats(data);
       }
     } catch (error) {
-      console.error("Failed to fetch dashboard stats:", error);
+      console.error('Failed to fetch dashboard stats:', error);
     } finally {
       setIsLoading(false);
     }
@@ -72,16 +72,16 @@ export default function Dashboard() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Confirmed":
-        return "bg-emerald-100 text-emerald-700 border-emerald-200";
-      case "Pending":
-        return "bg-amber-100 text-amber-700 border-amber-200";
-      case "Rejected":
-        return "bg-red-100 text-red-700 border-red-200";
-      case "Completed":
-        return "bg-blue-100 text-blue-700 border-blue-200";
+      case 'Confirmed':
+        return 'bg-emerald-100 text-emerald-700 border-emerald-200';
+      case 'Pending':
+        return 'bg-amber-100 text-amber-700 border-amber-200';
+      case 'Rejected':
+        return 'bg-red-100 text-red-700 border-red-200';
+      case 'Completed':
+        return 'bg-blue-100 text-blue-700 border-blue-200';
       default:
-        return "bg-gray-100 text-gray-700 border-gray-200";
+        return 'bg-gray-100 text-gray-700 border-gray-200';
     }
   };
 
@@ -101,11 +101,11 @@ export default function Dashboard() {
                 <div className="relative bg-white rounded-lg p-6 shadow-lg">
                   <div className="flex items-center space-x-4">
                     <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-cyan-600 rounded-2xl flex items-center justify-center text-white text-2xl font-bold animate-float">
-                      {user?.name?.charAt(0) || "U"}
+                      {user?.name?.charAt(0) || 'U'}
                     </div>
                     <div>
                       <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-1">
-                        Welcome back, {user?.name || "User"}!
+                        Welcome back, {user?.name || 'User'}!
                       </h1>
                       <p className="text-lg text-gray-600 flex items-center">
                         <Sparkles className="w-5 h-5 mr-2 text-purple-500" />
@@ -304,7 +304,9 @@ export default function Dashboard() {
                               </div>
                               <div className="flex items-center space-x-4">
                                 <Badge
-                                  className={`${getStatusColor(appointment.status)} border font-semibold px-3 py-1`}
+                                  className={`${getStatusColor(
+                                    appointment.status
+                                  )} border font-semibold px-3 py-1`}
                                 >
                                   {appointment.status}
                                 </Badge>
@@ -463,18 +465,18 @@ export default function Dashboard() {
                 <p>
                   <span className="font-semibold text-purple-600">
                     👨‍💻 Zaid Naeem
-                  </span>{" "}
+                  </span>{' '}
                   — Full-stack Mobile and Web Application developer. Tech stack:
                   React, React Native, MERN & Ruby on Rails developer
                 </p>
                 <p>
-                  <span className="font-medium text-purple-500">📧 Email:</span>{" "}
+                  <span className="font-medium text-purple-500">📧 Email:</span>{' '}
                   <a href="mailto:zaid.ch20@gmail.com" className="underline">
                     zaid.ch20@gmail.com
                   </a>
                 </p>
                 <p>
-                  <span className="font-medium text-purple-500">📞 Phone:</span>{" "}
+                  <span className="font-medium text-purple-500">📞 Phone:</span>{' '}
                   <a href="tel:+923361435189" className="underline">
                     +92 336 1435189
                   </a>
@@ -482,7 +484,7 @@ export default function Dashboard() {
                 <p>
                   <span className="font-medium text-purple-500">
                     🔗 LinkedIn:
-                  </span>{" "}
+                  </span>{' '}
                   <a
                     href="https://www.linkedin.com/in/zaid-naeem-1b24611a8/"
                     target="_blank"
