@@ -82,7 +82,8 @@ Be sure to add environment variables in their respective settings panel.
 
 **Zaid Naeem**  
 📧 zaid.ch20@gmail.com  
-🌐 [LinkedIn](https://www.linkedin.com/in/zaid-naeem-1b24611a8/)
+🌐 [LinkedIn](https://www.linkedin.com/in/zaid-naeem-1b24611a8/) 
+
 📱 +92-336-1435189  
 
 ---
