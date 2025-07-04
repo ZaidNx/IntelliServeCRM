@@ -1,4 +1,4 @@
-import nodemailer from 'nodemailer';
+import nodemailer from "nodemailer";
 
 interface ContactMessage {
   name: string;
@@ -9,23 +9,23 @@ interface ContactMessage {
 // Create transporter for Gmail
 const createTransporter = () => {
   return nodemailer.createTransport({
-    service: 'gmail',
+    service: "gmail",
     auth: {
-      user: process.env.EMAIL_USER || 'zaid.ch20@gmail.com',
+      user: process.env.EMAIL_USER || "zaid.ch20@gmail.com",
       pass: process.env.EMAIL_PASS || process.env.GMAIL_APP_PASSWORD, // Use App Password for Gmail
     },
   });
 };
 
 export async function sendContactEmail(
-  contactData: ContactMessage
+  contactData: ContactMessage,
 ): Promise<boolean> {
   try {
     const transporter = createTransporter();
 
     const mailOptions = {
-      from: process.env.EMAIL_USER || 'zaid.ch20@gmail.com',
-      to: 'zaid.ch20@gmail.com',
+      from: process.env.EMAIL_USER || "zaid.ch20@gmail.com",
+      to: "zaid.ch20@gmail.com",
       subject: `IntelliServe CRM - New Contact from ${contactData.name}`,
       html: `
         <h2>New Contact Form Submission</h2>
@@ -56,12 +56,12 @@ export async function sendContactEmail(
 
     const info = await transporter.sendMail(mailOptions);
     console.log(
-      '✅ Email sent successfully to zaid.ch20@gmail.com via Nodemailer'
+      "✅ Email sent successfully to zaid.ch20@gmail.com via Nodemailer",
     );
-    console.log('Message ID:', info.messageId);
+    console.log("Message ID:", info.messageId);
     return true;
   } catch (error) {
-    console.error('❌ Failed to send email:', error);
+    console.error("❌ Failed to send email:", error);
     return false;
   }
 }

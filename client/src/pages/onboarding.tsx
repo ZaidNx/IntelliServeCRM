@@ -1,15 +1,28 @@
-import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { useToast } from '@/hooks/use-toast';
-import { useAuth } from '@/hooks/useAuth';
-import { getAuthHeaders } from '@/lib/auth';
-import { Brain, Scissors, Stethoscope, Wrench, Bath, Plus, Trash2 } from 'lucide-react';
-import { useLocation } from 'wouter';
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
+import { getAuthHeaders } from "@/lib/auth";
+import {
+  Brain,
+  Scissors,
+  Stethoscope,
+  Wrench,
+  Bath,
+  Plus,
+  Trash2,
+} from "lucide-react";
+import { useLocation } from "wouter";
 
 interface Profession {
   _id: string;
@@ -33,36 +46,52 @@ interface WorkingHours {
   };
 }
 
-const WEEKDAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-const WEEKDAY_LABELS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const WEEKDAYS = [
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+  "saturday",
+  "sunday",
+];
+const WEEKDAY_LABELS = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
 
 const PROFESSION_ICONS = {
-  'fas fa-cut': Scissors,
-  'fas fa-tooth': Stethoscope,
-  'fas fa-spa': Bath,
-  'fas fa-wrench': Wrench
+  "fas fa-cut": Scissors,
+  "fas fa-tooth": Stethoscope,
+  "fas fa-spa": Bath,
+  "fas fa-wrench": Wrench,
 };
 
 export default function Onboarding() {
   const [currentStep, setCurrentStep] = useState(1);
   const [professions, setProfessions] = useState<Profession[]>([]);
-  const [selectedProfession, setSelectedProfession] = useState<string>('');
+  const [selectedProfession, setSelectedProfession] = useState<string>("");
   const [businessInfo, setBusinessInfo] = useState({
-    businessName: '',
-    phone: '',
-    location: ''
+    businessName: "",
+    phone: "",
+    location: "",
   });
   const [workingHours, setWorkingHours] = useState<WorkingHours>({});
   const [services, setServices] = useState<Service[]>([]);
   const [showServiceModal, setShowServiceModal] = useState(false);
   const [currentService, setCurrentService] = useState<Service>({
-    name: '',
+    name: "",
     durationMinutes: 30,
     price: 0,
-    description: ''
+    description: "",
   });
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const { toast } = useToast();
   const { user, updateUser } = useAuth();
   const [, setLocation] = useLocation();
@@ -74,21 +103,25 @@ export default function Onboarding() {
 
   const fetchProfessions = async () => {
     try {
-      const response = await fetch('/api/professions');
+      const response = await fetch("/api/professions");
       const data = await response.json();
       setProfessions(data);
     } catch (error) {
-      toast({ title: "Error", description: "Failed to load professions", variant: "destructive" });
+      toast({
+        title: "Error",
+        description: "Failed to load professions",
+        variant: "destructive",
+      });
     }
   };
 
   const initializeWorkingHours = () => {
     const defaultHours: WorkingHours = {};
-    WEEKDAYS.forEach(day => {
+    WEEKDAYS.forEach((day) => {
       defaultHours[day] = {
-        enabled: day !== 'sunday',
-        start: '09:00',
-        end: '17:00'
+        enabled: day !== "sunday",
+        start: "09:00",
+        end: "17:00",
       };
     });
     setWorkingHours(defaultHours);
@@ -106,20 +139,33 @@ export default function Onboarding() {
     }
   };
 
-  const handleWorkingHoursChange = (day: string, field: 'enabled' | 'start' | 'end', value: boolean | string) => {
-    setWorkingHours(prev => ({
+  const handleWorkingHoursChange = (
+    day: string,
+    field: "enabled" | "start" | "end",
+    value: boolean | string,
+  ) => {
+    setWorkingHours((prev) => ({
       ...prev,
       [day]: {
         ...prev[day],
-        [field]: value
-      }
+        [field]: value,
+      },
     }));
   };
 
   const addService = () => {
-    if (currentService.name && currentService.durationMinutes > 0 && currentService.price >= 0) {
+    if (
+      currentService.name &&
+      currentService.durationMinutes > 0 &&
+      currentService.price >= 0
+    ) {
       setServices([...services, currentService]);
-      setCurrentService({ name: '', durationMinutes: 30, price: 0, description: '' });
+      setCurrentService({
+        name: "",
+        durationMinutes: 30,
+        price: 0,
+        description: "",
+      });
       setShowServiceModal(false);
     }
   };
@@ -130,30 +176,34 @@ export default function Onboarding() {
 
   const completeOnboarding = async () => {
     if (services.length === 0) {
-      toast({ title: "Error", description: "Please add at least one service", variant: "destructive" });
+      toast({
+        title: "Error",
+        description: "Please add at least one service",
+        variant: "destructive",
+      });
       return;
     }
 
     setIsLoading(true);
     try {
       // Update user profile
-      const userUpdateResponse = await fetch('/api/users/profile', {
-        method: 'PUT',
+      const userUpdateResponse = await fetch("/api/users/profile", {
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
-          ...getAuthHeaders()
+          "Content-Type": "application/json",
+          ...getAuthHeaders(),
         },
         body: JSON.stringify({
           professionId: selectedProfession,
           businessName: businessInfo.businessName,
           phone: businessInfo.phone,
           location: businessInfo.location,
-          workingHours
-        })
+          workingHours,
+        }),
       });
 
       if (!userUpdateResponse.ok) {
-        throw new Error('Failed to update profile');
+        throw new Error("Failed to update profile");
       }
 
       const updatedUser = await userUpdateResponse.json();
@@ -161,25 +211,32 @@ export default function Onboarding() {
 
       // Create services
       for (const service of services) {
-        const serviceResponse = await fetch('/api/services', {
-          method: 'POST',
+        const serviceResponse = await fetch("/api/services", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
-            ...getAuthHeaders()
+            "Content-Type": "application/json",
+            ...getAuthHeaders(),
           },
-          body: JSON.stringify(service)
+          body: JSON.stringify(service),
         });
 
         if (!serviceResponse.ok) {
-          throw new Error('Failed to create service');
+          throw new Error("Failed to create service");
         }
       }
 
-      toast({ title: "Success!", description: "Your business setup is complete!" });
+      toast({
+        title: "Success!",
+        description: "Your business setup is complete!",
+      });
       // Force a page reload to trigger the routing logic
-      window.location.href = '/dashboard';
+      window.location.href = "/dashboard";
     } catch (error: any) {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -191,17 +248,26 @@ export default function Onboarding() {
         return (
           <div>
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-intelliserve-secondary mb-2">Choose Your Profession</h2>
-              <p className="text-gray-600">Select your primary service category</p>
+              <h2 className="text-3xl font-bold text-intelliserve-secondary mb-2">
+                Choose Your Profession
+              </h2>
+              <p className="text-gray-600">
+                Select your primary service category
+              </p>
             </div>
             <div className="grid md:grid-cols-2 gap-4">
               {professions.map((profession) => {
-                const IconComponent = PROFESSION_ICONS[profession.icon as keyof typeof PROFESSION_ICONS] || Brain;
+                const IconComponent =
+                  PROFESSION_ICONS[
+                    profession.icon as keyof typeof PROFESSION_ICONS
+                  ] || Brain;
                 return (
                   <Card
                     key={profession._id}
                     className={`cursor-pointer transition-all hover:shadow-lg ${
-                      selectedProfession === profession._id ? 'border-intelliserve-primary bg-primary/5' : 'border-gray-200'
+                      selectedProfession === profession._id
+                        ? "border-intelliserve-primary bg-primary/5"
+                        : "border-gray-200"
                     }`}
                     onClick={() => setSelectedProfession(profession._id)}
                   >
@@ -211,8 +277,12 @@ export default function Onboarding() {
                           <IconComponent className="text-intelliserve-primary w-6 h-6" />
                         </div>
                         <div>
-                          <h3 className="font-semibold text-lg">{profession.name}</h3>
-                          <p className="text-gray-600 text-sm">{profession.description}</p>
+                          <h3 className="font-semibold text-lg">
+                            {profession.name}
+                          </h3>
+                          <p className="text-gray-600 text-sm">
+                            {profession.description}
+                          </p>
                         </div>
                       </div>
                     </CardContent>
@@ -234,7 +304,9 @@ export default function Onboarding() {
         return (
           <div>
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-intelliserve-secondary mb-2">Business Information</h2>
+              <h2 className="text-3xl font-bold text-intelliserve-secondary mb-2">
+                Business Information
+              </h2>
               <p className="text-gray-600">Tell us about your business</p>
             </div>
             <div className="space-y-6">
@@ -244,7 +316,12 @@ export default function Onboarding() {
                   id="businessName"
                   placeholder="Your business name"
                   value={businessInfo.businessName}
-                  onChange={(e) => setBusinessInfo({ ...businessInfo, businessName: e.target.value })}
+                  onChange={(e) =>
+                    setBusinessInfo({
+                      ...businessInfo,
+                      businessName: e.target.value,
+                    })
+                  }
                 />
               </div>
               <div>
@@ -254,7 +331,9 @@ export default function Onboarding() {
                   type="tel"
                   placeholder="Business phone number"
                   value={businessInfo.phone}
-                  onChange={(e) => setBusinessInfo({ ...businessInfo, phone: e.target.value })}
+                  onChange={(e) =>
+                    setBusinessInfo({ ...businessInfo, phone: e.target.value })
+                  }
                 />
               </div>
               <div>
@@ -263,7 +342,12 @@ export default function Onboarding() {
                   id="location"
                   placeholder="Business address"
                   value={businessInfo.location}
-                  onChange={(e) => setBusinessInfo({ ...businessInfo, location: e.target.value })}
+                  onChange={(e) =>
+                    setBusinessInfo({
+                      ...businessInfo,
+                      location: e.target.value,
+                    })
+                  }
                 />
               </div>
             </div>
@@ -286,7 +370,9 @@ export default function Onboarding() {
         return (
           <div>
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-intelliserve-secondary mb-2">Working Hours</h2>
+              <h2 className="text-3xl font-bold text-intelliserve-secondary mb-2">
+                Working Hours
+              </h2>
               <p className="text-gray-600">Set your availability</p>
             </div>
             <div className="space-y-4">
@@ -296,23 +382,35 @@ export default function Onboarding() {
                     <div className="flex items-center space-x-3">
                       <Checkbox
                         checked={workingHours[day]?.enabled || false}
-                        onCheckedChange={(checked) => handleWorkingHoursChange(day, 'enabled', !!checked)}
+                        onCheckedChange={(checked) =>
+                          handleWorkingHoursChange(day, "enabled", !!checked)
+                        }
                       />
-                      <span className="font-medium">{WEEKDAY_LABELS[index]}</span>
+                      <span className="font-medium">
+                        {WEEKDAY_LABELS[index]}
+                      </span>
                     </div>
                     {workingHours[day]?.enabled && (
                       <div className="flex items-center space-x-2">
                         <Input
                           type="time"
                           value={workingHours[day].start}
-                          onChange={(e) => handleWorkingHoursChange(day, 'start', e.target.value)}
+                          onChange={(e) =>
+                            handleWorkingHoursChange(
+                              day,
+                              "start",
+                              e.target.value,
+                            )
+                          }
                           className="w-32"
                         />
                         <span className="text-gray-500">to</span>
                         <Input
                           type="time"
                           value={workingHours[day].end}
-                          onChange={(e) => handleWorkingHoursChange(day, 'end', e.target.value)}
+                          onChange={(e) =>
+                            handleWorkingHoursChange(day, "end", e.target.value)
+                          }
                           className="w-32"
                         />
                       </div>
@@ -325,7 +423,10 @@ export default function Onboarding() {
               <Button onClick={prevStep} variant="outline" className="flex-1">
                 Back
               </Button>
-              <Button onClick={nextStep} className="flex-1 bg-intelliserve-primary hover:bg-blue-600">
+              <Button
+                onClick={nextStep}
+                className="flex-1 bg-intelliserve-primary hover:bg-blue-600"
+              >
                 Continue
               </Button>
             </div>
@@ -336,8 +437,12 @@ export default function Onboarding() {
         return (
           <div>
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-intelliserve-secondary mb-2">Define Your Services</h2>
-              <p className="text-gray-600">Add at least one service to get started</p>
+              <h2 className="text-3xl font-bold text-intelliserve-secondary mb-2">
+                Define Your Services
+              </h2>
+              <p className="text-gray-600">
+                Add at least one service to get started
+              </p>
             </div>
             <div className="space-y-4 mb-6">
               {services.map((service, index) => (
@@ -393,9 +498,7 @@ export default function Onboarding() {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-2xl mx-auto py-12 px-4">
         <Card className="shadow-lg">
-          <CardContent className="p-8">
-            {renderStep()}
-          </CardContent>
+          <CardContent className="p-8">{renderStep()}</CardContent>
         </Card>
       </div>
 
@@ -412,7 +515,9 @@ export default function Onboarding() {
                 id="serviceName"
                 placeholder="e.g., Haircut & Style"
                 value={currentService.name}
-                onChange={(e) => setCurrentService({ ...currentService, name: e.target.value })}
+                onChange={(e) =>
+                  setCurrentService({ ...currentService, name: e.target.value })
+                }
               />
             </div>
             <div>
@@ -422,7 +527,12 @@ export default function Onboarding() {
                 type="number"
                 min="1"
                 value={currentService.durationMinutes}
-                onChange={(e) => setCurrentService({ ...currentService, durationMinutes: parseInt(e.target.value) || 0 })}
+                onChange={(e) =>
+                  setCurrentService({
+                    ...currentService,
+                    durationMinutes: parseInt(e.target.value) || 0,
+                  })
+                }
               />
             </div>
             <div>
@@ -433,7 +543,12 @@ export default function Onboarding() {
                 min="0"
                 step="0.01"
                 value={currentService.price}
-                onChange={(e) => setCurrentService({ ...currentService, price: parseFloat(e.target.value) || 0 })}
+                onChange={(e) =>
+                  setCurrentService({
+                    ...currentService,
+                    price: parseFloat(e.target.value) || 0,
+                  })
+                }
               />
             </div>
             <div>
@@ -442,14 +557,26 @@ export default function Onboarding() {
                 id="description"
                 placeholder="Brief description of the service"
                 value={currentService.description}
-                onChange={(e) => setCurrentService({ ...currentService, description: e.target.value })}
+                onChange={(e) =>
+                  setCurrentService({
+                    ...currentService,
+                    description: e.target.value,
+                  })
+                }
               />
             </div>
             <div className="flex gap-4 mt-6">
-              <Button onClick={() => setShowServiceModal(false)} variant="outline" className="flex-1">
+              <Button
+                onClick={() => setShowServiceModal(false)}
+                variant="outline"
+                className="flex-1"
+              >
                 Cancel
               </Button>
-              <Button onClick={addService} className="flex-1 bg-intelliserve-primary hover:bg-blue-600">
+              <Button
+                onClick={addService}
+                className="flex-1 bg-intelliserve-primary hover:bg-blue-600"
+              >
                 Add Service
               </Button>
             </div>

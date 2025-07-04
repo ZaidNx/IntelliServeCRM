@@ -6,12 +6,12 @@ A smart, modern, AI-enhanced CRM system for small to medium businesses. Built us
 
 ## 🚀 Features
 
-- ✅ AI-powered chatbot for booking & queries  
-- 📅 Appointment scheduling with availability checks  
-- 📈 Admin dashboard with revenue, client, and fulfillment stats  
-- 📬 Email/contact form integration  
-- 🌐 Responsive and elegant design  
-- 🛠 Built with Vite, TailwindCSS, TypeScript, and Drizzle ORM  
+- ✅ AI-powered chatbot for booking & queries
+- 📅 Appointment scheduling with availability checks
+- 📈 Admin dashboard with revenue, client, and fulfillment stats
+- 📬 Email/contact form integration
+- 🌐 Responsive and elegant design
+- 🛠 Built with Vite, TailwindCSS, TypeScript, and Drizzle ORM
 
 ---
 
@@ -31,11 +31,11 @@ A smart, modern, AI-enhanced CRM system for small to medium businesses. Built us
 
 ## 🛠 Tech Stack
 
-- **Frontend:** React, Vite, TypeScript, TailwindCSS  
-- **Backend:** Express.js, Node.js, Drizzle ORM  
-- **Database:** MongoDB Atlas  
-- **AI:** OpenAI API integration  
-- **Dev Tools:** GitHub, Render  
+- **Frontend:** React, Vite, TypeScript, TailwindCSS
+- **Backend:** Express.js, Node.js, Drizzle ORM
+- **Database:** MongoDB Atlas
+- **AI:** OpenAI API integration
+- **Dev Tools:** GitHub, Render
 
 ---
 
@@ -82,9 +82,9 @@ Be sure to add environment variables in their respective settings panel.
 
 **Zaid Naeem**  
 📧 zaid.ch20@gmail.com  
-🌐 [LinkedIn](https://www.linkedin.com/in/zaid-naeem-1b24611a8/) 
+🌐 [LinkedIn](https://www.linkedin.com/in/zaid-naeem-1b24611a8/)
 
-📱 +92-336-1435189  
+📱 +92-336-1435189
 
 ---
 

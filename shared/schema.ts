@@ -1,5 +1,5 @@
-import { ObjectId } from 'mongodb';
-import { z } from 'zod';
+import { ObjectId } from "mongodb";
+import { z } from "zod";
 
 // Users Schema
 export const userSchema = z.object({
@@ -11,20 +11,28 @@ export const userSchema = z.object({
   businessName: z.string().optional(),
   phone: z.string().optional(),
   location: z.string().optional(),
-  workingHours: z.record(z.object({
-    enabled: z.boolean(),
-    start: z.string(),
-    end: z.string()
-  })).optional(),
+  workingHours: z
+    .record(
+      z.object({
+        enabled: z.boolean(),
+        start: z.string(),
+        end: z.string(),
+      }),
+    )
+    .optional(),
   publicUrlSlug: z.string().optional(),
   createdAt: z.date().optional(),
-  updatedAt: z.date().optional()
+  updatedAt: z.date().optional(),
 });
 
-export const insertUserSchema = userSchema.omit({ _id: true, createdAt: true, updatedAt: true });
+export const insertUserSchema = userSchema.omit({
+  _id: true,
+  createdAt: true,
+  updatedAt: true,
+});
 export const loginSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(1)
+  password: z.string().min(1),
 });
 
 export type User = z.infer<typeof userSchema>;
@@ -36,7 +44,7 @@ export const professionSchema = z.object({
   _id: z.instanceof(ObjectId).optional(),
   name: z.string().min(1, "Profession name is required"),
   icon: z.string().optional(),
-  description: z.string().optional()
+  description: z.string().optional(),
 });
 
 export const insertProfessionSchema = professionSchema.omit({ _id: true });
@@ -52,10 +60,14 @@ export const serviceSchema = z.object({
   price: z.number().min(0, "Price must be non-negative"),
   description: z.string().optional(),
   createdAt: z.date().optional(),
-  updatedAt: z.date().optional()
+  updatedAt: z.date().optional(),
 });
 
-export const insertServiceSchema = serviceSchema.omit({ _id: true, createdAt: true, updatedAt: true });
+export const insertServiceSchema = serviceSchema.omit({
+  _id: true,
+  createdAt: true,
+  updatedAt: true,
+});
 export type Service = z.infer<typeof serviceSchema>;
 export type InsertService = z.infer<typeof insertServiceSchema>;
 
@@ -66,10 +78,14 @@ export const customerSchema = z.object({
   email: z.string().email().optional(),
   phone: z.string().min(1, "Phone is required"),
   createdAt: z.date().optional(),
-  updatedAt: z.date().optional()
+  updatedAt: z.date().optional(),
 });
 
-export const insertCustomerSchema = customerSchema.omit({ _id: true, createdAt: true, updatedAt: true });
+export const insertCustomerSchema = customerSchema.omit({
+  _id: true,
+  createdAt: true,
+  updatedAt: true,
+});
 export type Customer = z.infer<typeof customerSchema>;
 export type InsertCustomer = z.infer<typeof insertCustomerSchema>;
 
@@ -81,13 +97,19 @@ export const appointmentSchema = z.object({
   serviceId: z.instanceof(ObjectId),
   date: z.string().min(1, "Date is required"),
   time: z.string().min(1, "Time is required"),
-  status: z.enum(['Pending', 'Confirmed', 'Rejected', 'Completed']).default('Pending'),
+  status: z
+    .enum(["Pending", "Confirmed", "Rejected", "Completed"])
+    .default("Pending"),
   notes: z.string().optional(),
   createdAt: z.date().optional(),
-  updatedAt: z.date().optional()
+  updatedAt: z.date().optional(),
 });
 
-export const insertAppointmentSchema = appointmentSchema.omit({ _id: true, createdAt: true, updatedAt: true });
+export const insertAppointmentSchema = appointmentSchema.omit({
+  _id: true,
+  createdAt: true,
+  updatedAt: true,
+});
 export type Appointment = z.infer<typeof appointmentSchema>;
 export type InsertAppointment = z.infer<typeof insertAppointmentSchema>;
 
@@ -99,7 +121,7 @@ export const bookingRequestSchema = z.object({
   serviceId: z.string().min(1, "Service is required"),
   date: z.string().min(1, "Date is required"),
   time: z.string().min(1, "Time is required"),
-  notes: z.string().optional()
+  notes: z.string().optional(),
 });
 
 export type BookingRequest = z.infer<typeof bookingRequestSchema>;

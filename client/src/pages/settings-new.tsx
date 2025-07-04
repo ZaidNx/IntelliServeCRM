@@ -1,18 +1,18 @@
-import { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { Sidebar } from '@/components/sidebar-new';
-import { useAuth } from '@/hooks/useAuth';
-import { getAuthHeaders } from '@/lib/auth';
-import { useToast } from '@/hooks/use-toast';
-import { 
-  Settings, 
-  User, 
-  Building, 
-  Clock, 
+import { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Sidebar } from "@/components/sidebar-new";
+import { useAuth } from "@/hooks/useAuth";
+import { getAuthHeaders } from "@/lib/auth";
+import { useToast } from "@/hooks/use-toast";
+import {
+  Settings,
+  User,
+  Building,
+  Clock,
   Globe,
   Shield,
   Bell,
@@ -23,8 +23,8 @@ import {
   Phone,
   Mail,
   Link as LinkIcon,
-  Calendar
-} from 'lucide-react';
+  Calendar,
+} from "lucide-react";
 
 interface WorkingHours {
   [key: string]: {
@@ -37,45 +37,45 @@ interface WorkingHours {
 export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [activeTab, setActiveTab] = useState('profile');
+  const [activeTab, setActiveTab] = useState("profile");
   const { user, updateUser } = useAuth();
   const { toast } = useToast();
 
   const [profileForm, setProfileForm] = useState({
-    name: '',
-    email: '',
-    businessName: '',
-    phone: '',
-    location: '',
-    publicUrlSlug: ''
+    name: "",
+    email: "",
+    businessName: "",
+    phone: "",
+    location: "",
+    publicUrlSlug: "",
   });
 
   const [workingHours, setWorkingHours] = useState<WorkingHours>({
-    monday: { enabled: true, start: '09:00', end: '17:00' },
-    tuesday: { enabled: true, start: '09:00', end: '17:00' },
-    wednesday: { enabled: true, start: '09:00', end: '17:00' },
-    thursday: { enabled: true, start: '09:00', end: '17:00' },
-    friday: { enabled: true, start: '09:00', end: '17:00' },
-    saturday: { enabled: false, start: '09:00', end: '17:00' },
-    sunday: { enabled: false, start: '09:00', end: '17:00' }
+    monday: { enabled: true, start: "09:00", end: "17:00" },
+    tuesday: { enabled: true, start: "09:00", end: "17:00" },
+    wednesday: { enabled: true, start: "09:00", end: "17:00" },
+    thursday: { enabled: true, start: "09:00", end: "17:00" },
+    friday: { enabled: true, start: "09:00", end: "17:00" },
+    saturday: { enabled: false, start: "09:00", end: "17:00" },
+    sunday: { enabled: false, start: "09:00", end: "17:00" },
   });
 
   const [notifications, setNotifications] = useState({
     emailBookings: true,
     emailReminders: true,
     smsNotifications: false,
-    marketingEmails: false
+    marketingEmails: false,
   });
 
   useEffect(() => {
     if (user) {
       setProfileForm({
-        name: user.name || '',
-        email: user.email || '',
-        businessName: user.businessName || '',
-        phone: user.phone || '',
-        location: user.location || '',
-        publicUrlSlug: user.publicUrlSlug || ''
+        name: user.name || "",
+        email: user.email || "",
+        businessName: user.businessName || "",
+        phone: user.phone || "",
+        location: user.location || "",
+        publicUrlSlug: user.publicUrlSlug || "",
       });
 
       if (user.workingHours) {
@@ -88,16 +88,16 @@ export default function SettingsPage() {
   const handleProfileSave = async () => {
     setSaving(true);
     try {
-      const response = await fetch('/api/users/profile', {
-        method: 'PUT',
+      const response = await fetch("/api/users/profile", {
+        method: "PUT",
         headers: {
           ...getAuthHeaders(),
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           ...profileForm,
-          workingHours
-        })
+          workingHours,
+        }),
       });
 
       if (response.ok) {
@@ -105,34 +105,70 @@ export default function SettingsPage() {
         updateUser(updatedUser);
         toast({
           title: "Profile updated",
-          description: "Your profile has been saved successfully."
+          description: "Your profile has been saved successfully.",
         });
       } else {
         toast({
           title: "Error",
           description: "Failed to update profile. Please try again.",
-          variant: "destructive"
+          variant: "destructive",
         });
       }
     } catch (error) {
       toast({
         title: "Error",
         description: "Failed to update profile. Please try again.",
-        variant: "destructive"
+        variant: "destructive",
       });
     } finally {
       setSaving(false);
     }
   };
 
-  const dayNames = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-  const dayLabels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  const dayNames = [
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday",
+  ];
+  const dayLabels = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
 
   const tabs = [
-    { id: 'profile', label: 'Profile', icon: User, gradient: 'from-purple-500 to-indigo-600' },
-    { id: 'business', label: 'Business', icon: Building, gradient: 'from-emerald-500 to-teal-600' },
-    { id: 'hours', label: 'Hours', icon: Clock, gradient: 'from-amber-500 to-orange-600' },
-    { id: 'notifications', label: 'Notifications', icon: Bell, gradient: 'from-cyan-500 to-blue-600' }
+    {
+      id: "profile",
+      label: "Profile",
+      icon: User,
+      gradient: "from-purple-500 to-indigo-600",
+    },
+    {
+      id: "business",
+      label: "Business",
+      icon: Building,
+      gradient: "from-emerald-500 to-teal-600",
+    },
+    {
+      id: "hours",
+      label: "Hours",
+      icon: Clock,
+      gradient: "from-amber-500 to-orange-600",
+    },
+    {
+      id: "notifications",
+      label: "Notifications",
+      icon: Bell,
+      gradient: "from-cyan-500 to-blue-600",
+    },
   ];
 
   if (loading) {
@@ -160,7 +196,7 @@ export default function SettingsPage() {
       </div>
 
       <Sidebar />
-      
+
       <div className="flex-1 flex flex-col relative z-10">
         {/* Header */}
         <div className="p-8 border-b border-white/10 bg-black/20 backdrop-blur-lg">
@@ -169,9 +205,11 @@ export default function SettingsPage() {
               <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-300 to-cyan-300 bg-clip-text text-transparent">
                 Settings
               </h1>
-              <p className="text-purple-200 mt-2">Customize your account and business preferences</p>
+              <p className="text-purple-200 mt-2">
+                Customize your account and business preferences
+              </p>
             </div>
-            <Button 
+            <Button
               onClick={handleProfileSave}
               disabled={saving}
               className="btn-gradient"
@@ -203,9 +241,9 @@ export default function SettingsPage() {
                   onClick={() => setActiveTab(tab.id)}
                   variant={isActive ? "default" : "outline"}
                   className={`${
-                    isActive 
-                      ? `bg-gradient-to-r ${tab.gradient} text-white border-0` 
-                      : 'bg-white/10 border-white/30 text-white hover:bg-white/20'
+                    isActive
+                      ? `bg-gradient-to-r ${tab.gradient} text-white border-0`
+                      : "bg-white/10 border-white/30 text-white hover:bg-white/20"
                   } rounded-xl px-6 py-3`}
                 >
                   <Icon className="w-4 h-4 mr-2" />
@@ -218,7 +256,7 @@ export default function SettingsPage() {
 
         {/* Tab Content */}
         <div className="flex-1 p-8 pt-0 overflow-y-auto">
-          {activeTab === 'profile' && (
+          {activeTab === "profile" && (
             <div className="max-w-2xl">
               <Card className="modern-card bg-white/10 backdrop-blur-lg border-white/20">
                 <CardHeader>
@@ -230,33 +268,54 @@ export default function SettingsPage() {
                 <CardContent className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <Label htmlFor="name" className="text-white">Full Name</Label>
+                      <Label htmlFor="name" className="text-white">
+                        Full Name
+                      </Label>
                       <Input
                         id="name"
                         value={profileForm.name}
-                        onChange={(e) => setProfileForm({ ...profileForm, name: e.target.value })}
+                        onChange={(e) =>
+                          setProfileForm({
+                            ...profileForm,
+                            name: e.target.value,
+                          })
+                        }
                         className="bg-white/10 border-white/30 text-white placeholder-purple-300 focus:border-cyan-400"
                         placeholder="Your full name"
                       />
                     </div>
                     <div>
-                      <Label htmlFor="email" className="text-white">Email Address</Label>
+                      <Label htmlFor="email" className="text-white">
+                        Email Address
+                      </Label>
                       <Input
                         id="email"
                         type="email"
                         value={profileForm.email}
-                        onChange={(e) => setProfileForm({ ...profileForm, email: e.target.value })}
+                        onChange={(e) =>
+                          setProfileForm({
+                            ...profileForm,
+                            email: e.target.value,
+                          })
+                        }
                         className="bg-white/10 border-white/30 text-white placeholder-purple-300 focus:border-cyan-400"
                         placeholder="your@email.com"
                       />
                     </div>
                   </div>
                   <div>
-                    <Label htmlFor="phone" className="text-white">Phone Number</Label>
+                    <Label htmlFor="phone" className="text-white">
+                      Phone Number
+                    </Label>
                     <Input
                       id="phone"
                       value={profileForm.phone}
-                      onChange={(e) => setProfileForm({ ...profileForm, phone: e.target.value })}
+                      onChange={(e) =>
+                        setProfileForm({
+                          ...profileForm,
+                          phone: e.target.value,
+                        })
+                      }
                       className="bg-white/10 border-white/30 text-white placeholder-purple-300 focus:border-cyan-400"
                       placeholder="+1 (555) 123-4567"
                     />
@@ -266,7 +325,7 @@ export default function SettingsPage() {
             </div>
           )}
 
-          {activeTab === 'business' && (
+          {activeTab === "business" && (
             <div className="max-w-2xl">
               <Card className="modern-card bg-white/10 backdrop-blur-lg border-white/20">
                 <CardHeader>
@@ -277,27 +336,43 @@ export default function SettingsPage() {
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div>
-                    <Label htmlFor="businessName" className="text-white">Business Name</Label>
+                    <Label htmlFor="businessName" className="text-white">
+                      Business Name
+                    </Label>
                     <Input
                       id="businessName"
                       value={profileForm.businessName}
-                      onChange={(e) => setProfileForm({ ...profileForm, businessName: e.target.value })}
+                      onChange={(e) =>
+                        setProfileForm({
+                          ...profileForm,
+                          businessName: e.target.value,
+                        })
+                      }
                       className="bg-white/10 border-white/30 text-white placeholder-purple-300 focus:border-cyan-400"
                       placeholder="Your Business Name"
                     />
                   </div>
                   <div>
-                    <Label htmlFor="location" className="text-white">Business Location</Label>
+                    <Label htmlFor="location" className="text-white">
+                      Business Location
+                    </Label>
                     <Input
                       id="location"
                       value={profileForm.location}
-                      onChange={(e) => setProfileForm({ ...profileForm, location: e.target.value })}
+                      onChange={(e) =>
+                        setProfileForm({
+                          ...profileForm,
+                          location: e.target.value,
+                        })
+                      }
                       className="bg-white/10 border-white/30 text-white placeholder-purple-300 focus:border-cyan-400"
                       placeholder="123 Main St, City, State"
                     />
                   </div>
                   <div>
-                    <Label htmlFor="publicUrlSlug" className="text-white">Public Booking URL</Label>
+                    <Label htmlFor="publicUrlSlug" className="text-white">
+                      Public Booking URL
+                    </Label>
                     <div className="flex items-center space-x-2">
                       <span className="text-purple-200 text-sm">
                         {window.location.origin}/book/
@@ -305,7 +380,14 @@ export default function SettingsPage() {
                       <Input
                         id="publicUrlSlug"
                         value={profileForm.publicUrlSlug}
-                        onChange={(e) => setProfileForm({ ...profileForm, publicUrlSlug: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-') })}
+                        onChange={(e) =>
+                          setProfileForm({
+                            ...profileForm,
+                            publicUrlSlug: e.target.value
+                              .toLowerCase()
+                              .replace(/[^a-z0-9-]/g, "-"),
+                          })
+                        }
                         className="bg-white/10 border-white/30 text-white placeholder-purple-300 focus:border-cyan-400"
                         placeholder="your-business-name"
                       />
@@ -319,7 +401,7 @@ export default function SettingsPage() {
             </div>
           )}
 
-          {activeTab === 'hours' && (
+          {activeTab === "hours" && (
             <div className="max-w-2xl">
               <Card className="modern-card bg-white/10 backdrop-blur-lg border-white/20">
                 <CardHeader>
@@ -330,16 +412,21 @@ export default function SettingsPage() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {dayNames.map((day, index) => (
-                    <div key={day} className="flex items-center space-x-4 p-4 bg-white/5 rounded-xl border border-white/10">
+                    <div
+                      key={day}
+                      className="flex items-center space-x-4 p-4 bg-white/5 rounded-xl border border-white/10"
+                    >
                       <div className="w-24">
-                        <span className="text-white font-medium">{dayLabels[index]}</span>
+                        <span className="text-white font-medium">
+                          {dayLabels[index]}
+                        </span>
                       </div>
                       <Switch
                         checked={workingHours[day]?.enabled || false}
                         onCheckedChange={(checked) =>
                           setWorkingHours({
                             ...workingHours,
-                            [day]: { ...workingHours[day], enabled: checked }
+                            [day]: { ...workingHours[day], enabled: checked },
                           })
                         }
                       />
@@ -347,11 +434,14 @@ export default function SettingsPage() {
                         <div className="flex items-center space-x-2 flex-1">
                           <Input
                             type="time"
-                            value={workingHours[day]?.start || '09:00'}
+                            value={workingHours[day]?.start || "09:00"}
                             onChange={(e) =>
                               setWorkingHours({
                                 ...workingHours,
-                                [day]: { ...workingHours[day], start: e.target.value }
+                                [day]: {
+                                  ...workingHours[day],
+                                  start: e.target.value,
+                                },
                               })
                             }
                             className="bg-white/10 border-white/30 text-white focus:border-cyan-400 w-32"
@@ -359,11 +449,14 @@ export default function SettingsPage() {
                           <span className="text-purple-200">to</span>
                           <Input
                             type="time"
-                            value={workingHours[day]?.end || '17:00'}
+                            value={workingHours[day]?.end || "17:00"}
                             onChange={(e) =>
                               setWorkingHours({
                                 ...workingHours,
-                                [day]: { ...workingHours[day], end: e.target.value }
+                                [day]: {
+                                  ...workingHours[day],
+                                  end: e.target.value,
+                                },
                               })
                             }
                             className="bg-white/10 border-white/30 text-white focus:border-cyan-400 w-32"
@@ -371,7 +464,9 @@ export default function SettingsPage() {
                         </div>
                       )}
                       {!workingHours[day]?.enabled && (
-                        <span className="text-purple-400 italic flex-1">Closed</span>
+                        <span className="text-purple-400 italic flex-1">
+                          Closed
+                        </span>
                       )}
                     </div>
                   ))}
@@ -380,7 +475,7 @@ export default function SettingsPage() {
             </div>
           )}
 
-          {activeTab === 'notifications' && (
+          {activeTab === "notifications" && (
             <div className="max-w-2xl">
               <Card className="modern-card bg-white/10 backdrop-blur-lg border-white/20">
                 <CardHeader>
@@ -393,52 +488,80 @@ export default function SettingsPage() {
                   <div className="space-y-4">
                     <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10">
                       <div>
-                        <h4 className="text-white font-medium">Email Booking Notifications</h4>
-                        <p className="text-purple-200 text-sm">Get notified when new bookings are made</p>
+                        <h4 className="text-white font-medium">
+                          Email Booking Notifications
+                        </h4>
+                        <p className="text-purple-200 text-sm">
+                          Get notified when new bookings are made
+                        </p>
                       </div>
                       <Switch
                         checked={notifications.emailBookings}
                         onCheckedChange={(checked) =>
-                          setNotifications({ ...notifications, emailBookings: checked })
+                          setNotifications({
+                            ...notifications,
+                            emailBookings: checked,
+                          })
                         }
                       />
                     </div>
 
                     <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10">
                       <div>
-                        <h4 className="text-white font-medium">Email Reminders</h4>
-                        <p className="text-purple-200 text-sm">Receive appointment reminders via email</p>
+                        <h4 className="text-white font-medium">
+                          Email Reminders
+                        </h4>
+                        <p className="text-purple-200 text-sm">
+                          Receive appointment reminders via email
+                        </p>
                       </div>
                       <Switch
                         checked={notifications.emailReminders}
                         onCheckedChange={(checked) =>
-                          setNotifications({ ...notifications, emailReminders: checked })
+                          setNotifications({
+                            ...notifications,
+                            emailReminders: checked,
+                          })
                         }
                       />
                     </div>
 
                     <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10">
                       <div>
-                        <h4 className="text-white font-medium">SMS Notifications</h4>
-                        <p className="text-purple-200 text-sm">Get text messages for urgent updates</p>
+                        <h4 className="text-white font-medium">
+                          SMS Notifications
+                        </h4>
+                        <p className="text-purple-200 text-sm">
+                          Get text messages for urgent updates
+                        </p>
                       </div>
                       <Switch
                         checked={notifications.smsNotifications}
                         onCheckedChange={(checked) =>
-                          setNotifications({ ...notifications, smsNotifications: checked })
+                          setNotifications({
+                            ...notifications,
+                            smsNotifications: checked,
+                          })
                         }
                       />
                     </div>
 
                     <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10">
                       <div>
-                        <h4 className="text-white font-medium">Marketing Emails</h4>
-                        <p className="text-purple-200 text-sm">Receive tips and product updates</p>
+                        <h4 className="text-white font-medium">
+                          Marketing Emails
+                        </h4>
+                        <p className="text-purple-200 text-sm">
+                          Receive tips and product updates
+                        </p>
                       </div>
                       <Switch
                         checked={notifications.marketingEmails}
                         onCheckedChange={(checked) =>
-                          setNotifications({ ...notifications, marketingEmails: checked })
+                          setNotifications({
+                            ...notifications,
+                            marketingEmails: checked,
+                          })
                         }
                       />
                     </div>

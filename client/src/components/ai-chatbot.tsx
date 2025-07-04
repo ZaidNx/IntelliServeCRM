@@ -1,8 +1,8 @@
-import { useState, useRef, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { MessageCircle, Send, Bot, User, X } from 'lucide-react';
+import { useState, useRef, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { MessageCircle, Send, Bot, User, X } from "lucide-react";
 
 interface Message {
   id: string;
@@ -19,19 +19,19 @@ export function AIChatbot({ businessSlug }: AIChatbotProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
-      id: '1',
+      id: "1",
       text: "Hi! I'm your AI assistant. I can help you book appointments or answer questions about our services. How can I help you today?",
       isUser: false,
-      timestamp: new Date()
-    }
+      timestamp: new Date(),
+    },
   ]);
-  const [inputMessage, setInputMessage] = useState('');
+  const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -51,20 +51,20 @@ export function AIChatbot({ businessSlug }: AIChatbotProps) {
       id: Date.now().toString(),
       text: inputMessage,
       isUser: true,
-      timestamp: new Date()
+      timestamp: new Date(),
     };
 
-    setMessages(prev => [...prev, userMessage]);
-    setInputMessage('');
+    setMessages((prev) => [...prev, userMessage]);
+    setInputMessage("");
     setIsLoading(true);
 
     try {
       const response = await fetch(`/api/chatbot/${businessSlug}`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message: inputMessage })
+        body: JSON.stringify({ message: inputMessage }),
       });
 
       if (response.ok) {
@@ -73,36 +73,36 @@ export function AIChatbot({ businessSlug }: AIChatbotProps) {
           id: (Date.now() + 1).toString(),
           text: data.message,
           isUser: false,
-          timestamp: new Date()
+          timestamp: new Date(),
         };
-        setMessages(prev => [...prev, botMessage]);
+        setMessages((prev) => [...prev, botMessage]);
       } else {
-        throw new Error('Failed to get response');
+        throw new Error("Failed to get response");
       }
     } catch (error) {
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         text: "I apologize, but I'm having trouble processing your request right now. Please try again later or contact us directly.",
         isUser: false,
-        timestamp: new Date()
+        timestamp: new Date(),
       };
-      setMessages(prev => [...prev, errorMessage]);
+      setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
     }
   };
 
   const formatTime = (date: Date) => {
-    return date.toLocaleTimeString('en-US', { 
-      hour: '2-digit', 
-      minute: '2-digit' 
+    return date.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
@@ -139,20 +139,22 @@ export function AIChatbot({ businessSlug }: AIChatbotProps) {
             {messages.map((message) => (
               <div
                 key={message.id}
-                className={`flex items-start ${message.isUser ? 'justify-end' : 'justify-start'}`}
+                className={`flex items-start ${message.isUser ? "justify-end" : "justify-start"}`}
               >
                 {!message.isUser && (
                   <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
                     <Bot className="text-intelliserve-primary w-4 h-4" />
                   </div>
                 )}
-                
-                <div className={`max-w-xs ${message.isUser ? 'order-2' : 'order-1'}`}>
+
+                <div
+                  className={`max-w-xs ${message.isUser ? "order-2" : "order-1"}`}
+                >
                   <div
                     className={`rounded-2xl px-4 py-2 text-sm ${
                       message.isUser
-                        ? 'bg-intelliserve-primary text-white'
-                        : 'bg-white border border-gray-200 text-gray-700'
+                        ? "bg-intelliserve-primary text-white"
+                        : "bg-white border border-gray-200 text-gray-700"
                     }`}
                   >
                     <p>{message.text}</p>
@@ -169,7 +171,7 @@ export function AIChatbot({ businessSlug }: AIChatbotProps) {
                 )}
               </div>
             ))}
-            
+
             {isLoading && (
               <div className="flex items-start">
                 <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
@@ -178,13 +180,19 @@ export function AIChatbot({ businessSlug }: AIChatbotProps) {
                 <div className="bg-white border border-gray-200 rounded-2xl px-4 py-2 max-w-xs">
                   <div className="flex space-x-1">
                     <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                    <div
+                      className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                      style={{ animationDelay: "0.1s" }}
+                    ></div>
+                    <div
+                      className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                      style={{ animationDelay: "0.2s" }}
+                    ></div>
                   </div>
                 </div>
               </div>
             )}
-            
+
             <div ref={messagesEndRef} />
           </CardContent>
 
