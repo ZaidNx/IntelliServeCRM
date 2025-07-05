@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,6 +11,7 @@ import {
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
+import { useLocation } from 'wouter';
 import {
   Brain,
   Calendar,
@@ -49,7 +50,14 @@ export default function Landing() {
     message: '',
   });
   const { toast } = useToast();
-  const { login, register } = useAuth();
+  const { login, register, isAuthenticated } = useAuth();
+  const [, setLocation] = useLocation();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      setLocation('/');
+    }
+  }, [isAuthenticated, setLocation]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,6 +68,7 @@ export default function Landing() {
         description: "You've been successfully logged in.",
       });
       setShowLogin(false);
+      // Force a hard page refresh to trigger the routing logic
       window.location.reload();
     } catch (error: any) {
       toast({

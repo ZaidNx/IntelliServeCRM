@@ -1,19 +1,19 @@
-import { Switch, Route } from "wouter";
-import { queryClient } from "./lib/queryClient";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { useAuth } from "@/hooks/useAuth";
-import Landing from "@/pages/landing-new";
-import Onboarding from "@/pages/onboarding";
-import Dashboard from "@/pages/dashboard-new";
-import Appointments from "@/pages/appointments-new";
-import Customers from "@/pages/customers-new";
-import Services from "@/pages/services-new";
-import Settings from "@/pages/settings-new";
-import PublicBooking from "@/pages/public-booking";
-import NotFound from "@/pages/not-found";
-import AnalyticsPage from "./pages/analytics";
+import { Switch, Route, Redirect } from 'wouter';
+import { queryClient } from './lib/queryClient';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { Toaster } from '@/components/ui/toaster';
+import { TooltipProvider } from '@/components/ui/tooltip';
+import { useAuth } from '@/hooks/useAuth';
+import Landing from '@/pages/landing-new';
+import Onboarding from '@/pages/onboarding';
+import Dashboard from '@/pages/dashboard-new';
+import Appointments from '@/pages/appointments-new';
+import Customers from '@/pages/customers-new';
+import Services from '@/pages/services-new';
+import Settings from '@/pages/settings-new';
+import PublicBooking from '@/pages/public-booking';
+import NotFound from '@/pages/not-found';
+import AnalyticsPage from './pages/analytics';
 
 function Router() {
   const { isAuthenticated, isLoading, user } = useAuth();
@@ -30,6 +30,7 @@ function Router() {
     <Switch>
       {/* Public routes */}
       <Route path="/book/:slug" component={PublicBooking} />
+      <Route path="/welcome" component={Landing} />
 
       {/* Protected routes */}
       {isAuthenticated ? (
@@ -51,6 +52,13 @@ function Router() {
         </>
       ) : (
         <Route path="/" component={Landing} />
+      )}
+
+      {/* Catch-all: if not authenticated, redirect to landing */}
+      {!isAuthenticated && (
+        <Route>
+          <Redirect to="/welcome" />
+        </Route>
       )}
 
       {/* Fallback */}

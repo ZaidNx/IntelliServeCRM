@@ -1,7 +1,8 @@
-import { useState } from "react";
-import { Link, useLocation } from "wouter";
-import { useAuth } from "@/hooks/useAuth";
-import { Button } from "@/components/ui/button";
+import { useState } from 'react';
+import { Link, useLocation } from 'wouter';
+import { useAuth } from '@/hooks/useAuth';
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
 import {
   Home,
   Calendar,
@@ -19,60 +20,61 @@ import {
   Mail,
   Laptop,
   Globe,
-} from "lucide-react";
+} from 'lucide-react';
 
 export function Sidebar() {
-  const [location] = useLocation();
+  const [location, setLocation] = useLocation();
   const { user, logout } = useAuth();
   const [showModal, setShowModal] = useState(false);
+  const { toast } = useToast();
 
   const menuItems = [
     {
       icon: Home,
-      label: "Dashboard",
-      path: "/",
-      gradient: "from-purple-500 to-indigo-600",
+      label: 'Dashboard',
+      path: '/',
+      gradient: 'from-purple-500 to-indigo-600',
     },
     {
       icon: Calendar,
-      label: "Appointments",
-      path: "/appointments",
-      gradient: "from-emerald-500 to-teal-600",
+      label: 'Appointments',
+      path: '/appointments',
+      gradient: 'from-emerald-500 to-teal-600',
     },
     {
       icon: Users,
-      label: "Customers",
-      path: "/customers",
-      gradient: "from-cyan-500 to-blue-600",
+      label: 'Customers',
+      path: '/customers',
+      gradient: 'from-cyan-500 to-blue-600',
     },
     {
       icon: Wrench,
-      label: "Services",
-      path: "/services",
-      gradient: "from-amber-500 to-orange-600",
+      label: 'Services',
+      path: '/services',
+      gradient: 'from-amber-500 to-orange-600',
     },
     {
       icon: BarChart3,
-      label: "Analytics",
-      path: "/analytics",
-      gradient: "from-pink-500 to-rose-600",
+      label: 'Analytics',
+      path: '/analytics',
+      gradient: 'from-pink-500 to-rose-600',
     },
     {
       icon: Settings,
-      label: "Settings",
-      path: "/settings",
-      gradient: "from-slate-500 to-gray-600",
+      label: 'Settings',
+      path: '/settings',
+      gradient: 'from-slate-500 to-gray-600',
     },
     {
       icon: Globe,
-      label: "Public Page",
+      label: 'Public Page',
       path: `/book/${user?.publicUrlSlug}`,
-      gradient: "from-slate-500 to-gray-600",
+      gradient: 'from-slate-500 to-gray-600',
     },
   ];
 
   const isActive = (path: string) => {
-    if (path === "/") return location === "/";
+    if (path === '/') return location === '/';
     return location.startsWith(path);
   };
 
@@ -103,14 +105,14 @@ export function Sidebar() {
           <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-4 border border-white/20">
             <div className="flex items-center space-x-3">
               <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-cyan-600 rounded-xl flex items-center justify-center text-white font-bold text-lg">
-                {user?.name?.charAt(0) || "U"}
+                {user?.name?.charAt(0) || 'U'}
               </div>
               <div className="flex-1 min-w-0">
                 <p className="font-semibold text-white truncate">
-                  {user?.name || "User"}
+                  {user?.name || 'User'}
                 </p>
                 <p className="text-xs text-purple-200 truncate">
-                  {user?.businessName || "Business Owner"}
+                  {user?.businessName || 'Business Owner'}
                 </p>
               </div>
               <Crown className="w-5 h-5 text-amber-400" />
@@ -131,8 +133,8 @@ export function Sidebar() {
                   <div
                     className={`group relative overflow-hidden rounded-2xl transition-all duration-300 transform hover:scale-105 ${
                       active
-                        ? "bg-white/20 shadow-lg shadow-purple-500/20"
-                        : "hover:bg-white/10"
+                        ? 'bg-white/20 shadow-lg shadow-purple-500/20'
+                        : 'hover:bg-white/10'
                     }`}
                   >
                     {active && (
@@ -145,18 +147,22 @@ export function Sidebar() {
                         className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 ${
                           active
                             ? `bg-gradient-to-br ${item.gradient} shadow-lg`
-                            : "bg-white/10 group-hover:bg-white/20"
+                            : 'bg-white/10 group-hover:bg-white/20'
                         }`}
                       >
                         <Icon
-                          className={`w-5 h-5 ${active ? "text-white" : "text-purple-200 group-hover:text-white"}`}
+                          className={`w-5 h-5 ${
+                            active
+                              ? 'text-white'
+                              : 'text-purple-200 group-hover:text-white'
+                          }`}
                         />
                       </div>
                       <span
                         className={`font-medium transition-colors duration-300 ${
                           active
-                            ? "text-white"
-                            : "text-purple-200 group-hover:text-white"
+                            ? 'text-white'
+                            : 'text-purple-200 group-hover:text-white'
                         }`}
                       >
                         {item.label}
@@ -200,7 +206,14 @@ export function Sidebar() {
         {/* Logout Section */}
         <div className="p-4 border-t border-white/10 shrink-0">
           <Button
-            onClick={logout}
+            onClick={() => {
+              logout();
+              toast({
+                title: 'Signed out',
+                description: 'You have been successfully signed out.',
+              });
+              setLocation('/welcome');
+            }}
             variant="ghost"
             className="w-full justify-start text-purple-200 hover:text-white hover:bg-red-500/20 rounded-2xl p-4 transition-all duration-300"
           >

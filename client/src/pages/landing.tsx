@@ -1,16 +1,17 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
-import { useAuth } from "@/hooks/useAuth";
+} from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
+import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/hooks/useAuth';
+import { useLocation } from 'wouter';
 import {
   Brain,
   Calendar,
@@ -21,32 +22,39 @@ import {
   Linkedin,
   Menu,
   X,
-} from "lucide-react";
+} from 'lucide-react';
 
 export default function Landing() {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [loginForm, setLoginForm] = useState({ email: "", password: "" });
+  const [loginForm, setLoginForm] = useState({ email: '', password: '' });
   const [registerForm, setRegisterForm] = useState({
-    name: "",
-    email: "",
-    password: "",
+    name: '',
+    email: '',
+    password: '',
   });
   const [contactForm, setContactForm] = useState({
-    name: "",
-    email: "",
-    message: "",
+    name: '',
+    email: '',
+    message: '',
   });
   const { toast } = useToast();
-  const { login, register } = useAuth();
+  const { login, register, isAuthenticated } = useAuth();
+  const [, setLocation] = useLocation();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      setLocation('/');
+    }
+  }, [isAuthenticated, setLocation]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await login(loginForm.email, loginForm.password);
       toast({
-        title: "Welcome back!",
+        title: 'Welcome back!',
         description: "You've been successfully logged in.",
       });
       setShowLogin(false);
@@ -54,9 +62,9 @@ export default function Landing() {
       window.location.reload();
     } catch (error: any) {
       toast({
-        title: "Login failed",
+        title: 'Login failed',
         description: error.message,
-        variant: "destructive",
+        variant: 'destructive',
       });
     }
   };
@@ -67,20 +75,20 @@ export default function Landing() {
       await register(
         registerForm.name,
         registerForm.email,
-        registerForm.password,
+        registerForm.password
       );
       toast({
-        title: "Welcome!",
-        description: "Your account has been created successfully.",
+        title: 'Welcome!',
+        description: 'Your account has been created successfully.',
       });
       setShowRegister(false);
       // Force a page reload to trigger the routing logic
       window.location.reload();
     } catch (error: any) {
       toast({
-        title: "Registration failed",
+        title: 'Registration failed',
         description: error.message,
-        variant: "destructive",
+        variant: 'destructive',
       });
     }
   };
@@ -90,46 +98,46 @@ export default function Landing() {
 
     if (!contactForm.name || !contactForm.email || !contactForm.message) {
       toast({
-        title: "Missing information",
-        description: "Please fill in all fields",
-        variant: "destructive",
+        title: 'Missing information',
+        description: 'Please fill in all fields',
+        variant: 'destructive',
       });
       return;
     }
 
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
+      const response = await fetch('/api/contact', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(contactForm),
       });
 
       if (response.ok) {
         toast({
-          title: "Message sent!",
+          title: 'Message sent!',
           description: "Thank you for your message. I'll get back to you soon.",
         });
-        setContactForm({ name: "", email: "", message: "" });
+        setContactForm({ name: '', email: '', message: '' });
       } else {
         toast({
-          title: "Failed to send",
-          description: "Please try again or contact me directly via email",
-          variant: "destructive",
+          title: 'Failed to send',
+          description: 'Please try again or contact me directly via email',
+          variant: 'destructive',
         });
       }
     } catch (error) {
       toast({
-        title: "Failed to send",
-        description: "Please try again or contact me directly via email",
-        variant: "destructive",
+        title: 'Failed to send',
+        description: 'Please try again or contact me directly via email',
+        variant: 'destructive',
       });
     }
   };
 
   const scrollToSection = (sectionId: string) => {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -149,19 +157,19 @@ export default function Landing() {
 
             <div className="hidden md:flex items-center space-x-8">
               <button
-                onClick={() => scrollToSection("features")}
+                onClick={() => scrollToSection('features')}
                 className="text-gray-600 hover:text-intelliserve-primary transition-colors"
               >
                 Features
               </button>
               <button
-                onClick={() => scrollToSection("how-it-works")}
+                onClick={() => scrollToSection('how-it-works')}
                 className="text-gray-600 hover:text-intelliserve-primary transition-colors"
               >
                 How It Works
               </button>
               <button
-                onClick={() => scrollToSection("contact")}
+                onClick={() => scrollToSection('contact')}
                 className="text-gray-600 hover:text-intelliserve-primary transition-colors"
               >
                 Contact
@@ -196,19 +204,19 @@ export default function Landing() {
             <div className="md:hidden py-4 border-t border-gray-200">
               <div className="flex flex-col space-y-2">
                 <button
-                  onClick={() => scrollToSection("features")}
+                  onClick={() => scrollToSection('features')}
                   className="text-left text-gray-600 hover:text-intelliserve-primary transition-colors py-2"
                 >
                   Features
                 </button>
                 <button
-                  onClick={() => scrollToSection("how-it-works")}
+                  onClick={() => scrollToSection('how-it-works')}
                   className="text-left text-gray-600 hover:text-intelliserve-primary transition-colors py-2"
                 >
                   How It Works
                 </button>
                 <button
-                  onClick={() => scrollToSection("contact")}
+                  onClick={() => scrollToSection('contact')}
                   className="text-left text-gray-600 hover:text-intelliserve-primary transition-colors py-2"
                 >
                   Contact
@@ -254,7 +262,7 @@ export default function Landing() {
                 Start Free Trial
               </Button>
               <Button
-                onClick={() => scrollToSection("contact")}
+                onClick={() => scrollToSection('contact')}
                 variant="outline"
                 className="border-intelliserve-accent text-intelliserve-accent hover:bg-intelliserve-accent hover:text-intelliserve-secondary px-8 py-4 text-lg font-semibold"
               >
@@ -275,18 +283,18 @@ export default function Landing() {
               </div>
             </div>
             <p className="text-lg text-gray-700 leading-relaxed">
-              Hi, I'm{" "}
-              <strong className="text-intelliserve-primary">Zaid Naeem</strong>{" "}
+              Hi, I'm{' '}
+              <strong className="text-intelliserve-primary">Zaid Naeem</strong>{' '}
               — the designer, developer, and deployer of this application. You
               can reach out to me via the contact section below.
-              <br />I designed, developed and deployed this CRM app —{" "}
+              <br />I designed, developed and deployed this CRM app —{' '}
               <strong className="text-intelliserve-accent">
                 solo, like a one-man army
               </strong>
               .
             </p>
             <Button
-              onClick={() => scrollToSection("contact")}
+              onClick={() => scrollToSection('contact')}
               className="mt-6 bg-intelliserve-primary hover:bg-blue-600 text-white px-6 py-3 font-semibold"
             >
               Contact Me
