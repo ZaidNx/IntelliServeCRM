@@ -84,6 +84,21 @@
   background: rgba(30, 41, 59, 0.8);
 }
 
+/* Override modern-card background when bg-transparent is applied */
+.modern-card.bg-transparent {
+  background: transparent !important;
+}
+
+/* Make gradient backgrounds important to override bg-transparent */
+.modern-card.bg-gradient-to-br.from-emerald-500.via-purple-900.to-pink-500 {
+  background: linear-gradient(
+    to bottom right,
+    #10b981 0%,
+    #7c3aed 50%,
+    #ec4899 100%
+  ) !important;
+}
+
 .gradient-primary {
   background: var(--gradient-primary);
 }
@@ -131,8 +146,7 @@
 }
 
 .btn-gradient:hover {
-  box-shadow:
-    0 20px 25px -5px rgba(139, 92, 246, 0.3),
+  box-shadow: 0 20px 25px -5px rgba(139, 92, 246, 0.3),
     0 10px 10px -5px rgba(139, 92, 246, 0.2);
 }
 

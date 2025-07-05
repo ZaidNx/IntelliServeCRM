@@ -258,7 +258,7 @@ export default function SettingsPage() {
         <div className="flex-1 p-8 pt-0 overflow-y-auto">
           {activeTab === 'profile' && (
             <div className="max-w-2xl">
-              <Card className="modern-card backdrop-blur-lg border-white/20">
+              <Card className="modern-card backdrop-blur-lg border-white/20 bg-transparent bg-gradient-to-br from-emerald-500 via-purple-900 to-pink-500">
                 <CardHeader>
                   <CardTitle className="text-xl text-white flex items-center">
                     <User className="w-6 h-6 mr-2 text-purple-400" />
@@ -327,7 +327,7 @@ export default function SettingsPage() {
 
           {activeTab === 'business' && (
             <div className="max-w-2xl">
-              <Card className="modern-card backdrop-blur-lg border-white/20">
+              <Card className="modern-card backdrop-blur-lg border-white/20 bg-transparent bg-gradient-to-br from-emerald-500 via-purple-900 to-pink-500">
                 <CardHeader>
                   <CardTitle className="text-xl text-white flex items-center">
                     <Building className="w-6 h-6 mr-2 text-emerald-400" />
@@ -403,7 +403,7 @@ export default function SettingsPage() {
 
           {activeTab === 'hours' && (
             <div className="max-w-2xl">
-              <Card className="modern-card backdrop-blur-lg border-white/20">
+              <Card className="modern-card backdrop-blur-lg border-white/20 bg-transparent bg-gradient-to-br from-emerald-500 via-purple-900 to-pink-500">
                 <CardHeader>
                   <CardTitle className="text-xl text-white flex items-center">
                     <Clock className="w-6 h-6 mr-2 text-amber-400" />
@@ -477,7 +477,7 @@ export default function SettingsPage() {
 
           {activeTab === 'notifications' && (
             <div className="max-w-2xl">
-              <Card className="modern-card backdrop-blur-lg border-white/20">
+              <Card className="modern-card backdrop-blur-lg border-white/20 bg-transparent bg-gradient-to-br from-emerald-500 via-purple-900 to-pink-500">
                 <CardHeader>
                   <CardTitle className="text-xl text-white flex items-center">
                     <Bell className="w-6 h-6 mr-2 text-cyan-400" />
