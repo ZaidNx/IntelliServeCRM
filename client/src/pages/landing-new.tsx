@@ -1,16 +1,16 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
-import { useAuth } from "@/hooks/useAuth";
+} from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
+import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/hooks/useAuth';
 import {
   Brain,
   Calendar,
@@ -30,22 +30,23 @@ import {
   Shield,
   TrendingUp,
   Globe,
-} from "lucide-react";
+  MessageCircle,
+} from 'lucide-react';
 
 export default function Landing() {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [loginForm, setLoginForm] = useState({ email: "", password: "" });
+  const [loginForm, setLoginForm] = useState({ email: '', password: '' });
   const [registerForm, setRegisterForm] = useState({
-    name: "",
-    email: "",
-    password: "",
+    name: '',
+    email: '',
+    password: '',
   });
   const [contactForm, setContactForm] = useState({
-    name: "",
-    email: "",
-    message: "",
+    name: '',
+    email: '',
+    message: '',
   });
   const { toast } = useToast();
   const { login, register } = useAuth();
@@ -55,16 +56,16 @@ export default function Landing() {
     try {
       await login(loginForm.email, loginForm.password);
       toast({
-        title: "Welcome back!",
+        title: 'Welcome back!',
         description: "You've been successfully logged in.",
       });
       setShowLogin(false);
       window.location.reload();
     } catch (error: any) {
       toast({
-        title: "Login failed",
+        title: 'Login failed',
         description: error.message,
-        variant: "destructive",
+        variant: 'destructive',
       });
     }
   };
@@ -75,19 +76,19 @@ export default function Landing() {
       await register(
         registerForm.name,
         registerForm.email,
-        registerForm.password,
+        registerForm.password
       );
       toast({
-        title: "Welcome!",
-        description: "Your account has been created successfully.",
+        title: 'Welcome!',
+        description: 'Your account has been created successfully.',
       });
       setShowRegister(false);
       window.location.reload();
     } catch (error: any) {
       toast({
-        title: "Registration failed",
+        title: 'Registration failed',
         description: error.message,
-        variant: "destructive",
+        variant: 'destructive',
       });
     }
   };
@@ -97,76 +98,76 @@ export default function Landing() {
 
     if (!contactForm.name || !contactForm.email || !contactForm.message) {
       toast({
-        title: "Missing information",
-        description: "Please fill in all fields",
-        variant: "destructive",
+        title: 'Missing information',
+        description: 'Please fill in all fields',
+        variant: 'destructive',
       });
       return;
     }
 
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
+      const response = await fetch('/api/contact', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(contactForm),
       });
 
       if (response.ok) {
         toast({
-          title: "Message sent!",
+          title: 'Message sent!',
           description: "Thank you for your message. I'll get back to you soon.",
         });
-        setContactForm({ name: "", email: "", message: "" });
+        setContactForm({ name: '', email: '', message: '' });
       } else {
         toast({
-          title: "Failed to send",
-          description: "Please try again or contact me directly via email",
-          variant: "destructive",
+          title: 'Failed to send',
+          description: 'Please try again or contact me directly via email',
+          variant: 'destructive',
         });
       }
     } catch (error) {
       toast({
-        title: "Failed to send",
-        description: "Please try again or contact me directly via email",
-        variant: "destructive",
+        title: 'Failed to send',
+        description: 'Please try again or contact me directly via email',
+        variant: 'destructive',
       });
     }
   };
 
   const scrollToSection = (sectionId: string) => {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const features = [
     {
       icon: Brain,
-      title: "AI-Powered Intelligence",
+      title: 'AI-Powered Intelligence',
       description:
-        "Smart chatbot automation that handles customer inquiries and bookings 24/7",
-      gradient: "from-purple-600 to-indigo-600",
+        'Smart chatbot automation that handles customer inquiries and bookings 24/7',
+      gradient: 'from-purple-600 to-indigo-600',
     },
     {
       icon: Calendar,
-      title: "Smart Scheduling",
+      title: 'Smart Scheduling',
       description:
-        "Automated appointment booking with conflict detection and optimal time suggestions",
-      gradient: "from-emerald-500 to-teal-600",
+        'Automated appointment booking with conflict detection and optimal time suggestions',
+      gradient: 'from-emerald-500 to-teal-600',
     },
     {
       icon: Users,
-      title: "Customer Management",
+      title: 'Customer Management',
       description:
-        "Complete customer profiles with history, preferences, and automated follow-ups",
-      gradient: "from-cyan-500 to-blue-600",
+        'Complete customer profiles with history, preferences, and automated follow-ups',
+      gradient: 'from-cyan-500 to-blue-600',
     },
     {
       icon: BarChart3,
-      title: "Analytics Dashboard",
+      title: 'Analytics Dashboard',
       description:
-        "Real-time business insights with revenue tracking and performance metrics",
-      gradient: "from-amber-500 to-orange-600",
+        'Real-time business insights with revenue tracking and performance metrics',
+      gradient: 'from-amber-500 to-orange-600',
     },
   ];
 
@@ -197,19 +198,19 @@ export default function Landing() {
 
             <div className="hidden md:flex items-center space-x-8">
               <button
-                onClick={() => scrollToSection("features")}
+                onClick={() => scrollToSection('features')}
                 className="text-purple-200 hover:text-white transition-colors"
               >
                 Features
               </button>
               <button
-                onClick={() => scrollToSection("pricing")}
+                onClick={() => scrollToSection('pricing')}
                 className="text-purple-200 hover:text-white transition-colors"
               >
                 Pricing
               </button>
               <button
-                onClick={() => scrollToSection("contact")}
+                onClick={() => scrollToSection('contact')}
                 className="text-purple-200 hover:text-white transition-colors"
               >
                 Contact
@@ -250,14 +251,14 @@ export default function Landing() {
               <Button
                 variant="ghost"
                 className="w-full justify-start text-purple-200"
-                onClick={() => scrollToSection("features")}
+                onClick={() => scrollToSection('features')}
               >
                 Features
               </Button>
               <Button
                 variant="ghost"
                 className="w-full justify-start text-purple-200"
-                onClick={() => scrollToSection("contact")}
+                onClick={() => scrollToSection('contact')}
               >
                 Contact
               </Button>
@@ -314,9 +315,9 @@ export default function Landing() {
               <Button
                 onClick={() => {
                   window.open(
-                    "https://www.youtube.com/@zaid5222",
-                    "_blank",
-                    "noopener,noreferrer",
+                    'https://www.youtube.com/@zaid5222',
+                    '_blank',
+                    'noopener,noreferrer'
                   );
                 }}
                 size="lg"
@@ -416,25 +417,52 @@ export default function Landing() {
               </h3>
 
               <div className="space-y-6">
-                <div className="flex items-center space-x-4 p-4 bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20">
+                <a
+                  href="tel:+923361435189"
+                  className="flex items-center space-x-4 p-4 bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 hover:bg-white/20 transition-all cursor-pointer"
+                >
                   <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center">
                     <Phone className="text-white w-6 h-6" />
                   </div>
                   <div>
                     <p className="font-medium text-white">Phone</p>
-                    <p className="text-purple-200">+92 336 1435189</p>
+                    <p className="text-purple-200 hover:text-cyan-400 transition-colors">
+                      +92 336 1435189
+                    </p>
                   </div>
-                </div>
+                </a>
 
-                <div className="flex items-center space-x-4 p-4 bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20">
+                <a
+                  href="mailto:zaid.ch20@gmail.com"
+                  className="flex items-center space-x-4 p-4 bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 hover:bg-white/20 transition-all cursor-pointer"
+                >
                   <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center">
                     <Mail className="text-white w-6 h-6" />
                   </div>
                   <div>
                     <p className="font-medium text-white">Email</p>
-                    <p className="text-purple-200">zaid.ch20@gmail.com</p>
+                    <p className="text-purple-200 hover:text-cyan-400 transition-colors">
+                      zaid.ch20@gmail.com
+                    </p>
                   </div>
-                </div>
+                </a>
+
+                <a
+                  href="https://wa.me/923361435189"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-4 p-4 bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 hover:bg-white/20 transition-all cursor-pointer"
+                >
+                  <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+                    <MessageCircle className="text-white w-6 h-6" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-white">WhatsApp</p>
+                    <p className="text-purple-200 hover:text-cyan-400 transition-colors">
+                      +92 336 1435189
+                    </p>
+                  </div>
+                </a>
 
                 <div className="flex items-center space-x-4 p-4 bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20">
                   <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center">
@@ -489,7 +517,7 @@ export default function Landing() {
                         setContactForm({ ...contactForm, name: e.target.value })
                       }
                       className="bg-white/10 border-white/30 text-white focus:border-cyan-400"
-                      style={{ color: "white" }}
+                      style={{ color: 'white' }}
                       required
                     />
                   </div>
@@ -510,7 +538,7 @@ export default function Landing() {
                         })
                       }
                       className="bg-white/10 border-white/30 text-white focus:border-cyan-400"
-                      style={{ color: "white" }}
+                      style={{ color: 'white' }}
                       required
                     />
                   </div>
@@ -531,7 +559,7 @@ export default function Landing() {
                         })
                       }
                       className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-xl text-white focus:ring-2 focus:ring-cyan-400 focus:border-transparent resize-none"
-                      style={{ color: "white" }}
+                      style={{ color: 'white' }}
                       required
                     />
                   </div>

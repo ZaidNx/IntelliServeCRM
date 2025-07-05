@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { Sidebar } from "@/components/sidebar-new";
-import { useAuth } from "@/hooks/useAuth";
-import { getAuthHeaders } from "@/lib/auth";
-import { useToast } from "@/hooks/use-toast";
+import { useState, useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
+import { Sidebar } from '@/components/sidebar-new';
+import { useAuth } from '@/hooks/useAuth';
+import { getAuthHeaders } from '@/lib/auth';
+import { useToast } from '@/hooks/use-toast';
 import {
   Settings,
   User,
@@ -24,7 +24,7 @@ import {
   Mail,
   Link as LinkIcon,
   Calendar,
-} from "lucide-react";
+} from 'lucide-react';
 
 interface WorkingHours {
   [key: string]: {
@@ -37,27 +37,27 @@ interface WorkingHours {
 export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [activeTab, setActiveTab] = useState("profile");
+  const [activeTab, setActiveTab] = useState('profile');
   const { user, updateUser } = useAuth();
   const { toast } = useToast();
 
   const [profileForm, setProfileForm] = useState({
-    name: "",
-    email: "",
-    businessName: "",
-    phone: "",
-    location: "",
-    publicUrlSlug: "",
+    name: '',
+    email: '',
+    businessName: '',
+    phone: '',
+    location: '',
+    publicUrlSlug: '',
   });
 
   const [workingHours, setWorkingHours] = useState<WorkingHours>({
-    monday: { enabled: true, start: "09:00", end: "17:00" },
-    tuesday: { enabled: true, start: "09:00", end: "17:00" },
-    wednesday: { enabled: true, start: "09:00", end: "17:00" },
-    thursday: { enabled: true, start: "09:00", end: "17:00" },
-    friday: { enabled: true, start: "09:00", end: "17:00" },
-    saturday: { enabled: false, start: "09:00", end: "17:00" },
-    sunday: { enabled: false, start: "09:00", end: "17:00" },
+    monday: { enabled: true, start: '09:00', end: '17:00' },
+    tuesday: { enabled: true, start: '09:00', end: '17:00' },
+    wednesday: { enabled: true, start: '09:00', end: '17:00' },
+    thursday: { enabled: true, start: '09:00', end: '17:00' },
+    friday: { enabled: true, start: '09:00', end: '17:00' },
+    saturday: { enabled: false, start: '09:00', end: '17:00' },
+    sunday: { enabled: false, start: '09:00', end: '17:00' },
   });
 
   const [notifications, setNotifications] = useState({
@@ -70,12 +70,12 @@ export default function SettingsPage() {
   useEffect(() => {
     if (user) {
       setProfileForm({
-        name: user.name || "",
-        email: user.email || "",
-        businessName: user.businessName || "",
-        phone: user.phone || "",
-        location: user.location || "",
-        publicUrlSlug: user.publicUrlSlug || "",
+        name: user.name || '',
+        email: user.email || '',
+        businessName: user.businessName || '',
+        phone: user.phone || '',
+        location: user.location || '',
+        publicUrlSlug: user.publicUrlSlug || '',
       });
 
       if (user.workingHours) {
@@ -88,11 +88,11 @@ export default function SettingsPage() {
   const handleProfileSave = async () => {
     setSaving(true);
     try {
-      const response = await fetch("/api/users/profile", {
-        method: "PUT",
+      const response = await fetch('/api/users/profile', {
+        method: 'PUT',
         headers: {
           ...getAuthHeaders(),
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           ...profileForm,
@@ -104,21 +104,21 @@ export default function SettingsPage() {
         const updatedUser = await response.json();
         updateUser(updatedUser);
         toast({
-          title: "Profile updated",
-          description: "Your profile has been saved successfully.",
+          title: 'Profile updated',
+          description: 'Your profile has been saved successfully.',
         });
       } else {
         toast({
-          title: "Error",
-          description: "Failed to update profile. Please try again.",
-          variant: "destructive",
+          title: 'Error',
+          description: 'Failed to update profile. Please try again.',
+          variant: 'destructive',
         });
       }
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to update profile. Please try again.",
-        variant: "destructive",
+        title: 'Error',
+        description: 'Failed to update profile. Please try again.',
+        variant: 'destructive',
       });
     } finally {
       setSaving(false);
@@ -126,48 +126,48 @@ export default function SettingsPage() {
   };
 
   const dayNames = [
-    "monday",
-    "tuesday",
-    "wednesday",
-    "thursday",
-    "friday",
-    "saturday",
-    "sunday",
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday',
+    'sunday',
   ];
   const dayLabels = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday',
   ];
 
   const tabs = [
     {
-      id: "profile",
-      label: "Profile",
+      id: 'profile',
+      label: 'Profile',
       icon: User,
-      gradient: "from-purple-500 to-indigo-600",
+      gradient: 'from-purple-500 to-indigo-600',
     },
     {
-      id: "business",
-      label: "Business",
+      id: 'business',
+      label: 'Business',
       icon: Building,
-      gradient: "from-emerald-500 to-teal-600",
+      gradient: 'from-emerald-500 to-teal-600',
     },
     {
-      id: "hours",
-      label: "Hours",
+      id: 'hours',
+      label: 'Hours',
       icon: Clock,
-      gradient: "from-amber-500 to-orange-600",
+      gradient: 'from-amber-500 to-orange-600',
     },
     {
-      id: "notifications",
-      label: "Notifications",
+      id: 'notifications',
+      label: 'Notifications',
       icon: Bell,
-      gradient: "from-cyan-500 to-blue-600",
+      gradient: 'from-cyan-500 to-blue-600',
     },
   ];
 
@@ -239,11 +239,11 @@ export default function SettingsPage() {
                 <Button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  variant={isActive ? "default" : "outline"}
+                  variant={isActive ? 'default' : 'outline'}
                   className={`${
                     isActive
                       ? `bg-gradient-to-r ${tab.gradient} text-white border-0`
-                      : "bg-white/10 border-white/30 text-white hover:bg-white/20"
+                      : 'bg-white/10 border-white/30 text-white hover:bg-white/20'
                   } rounded-xl px-6 py-3`}
                 >
                   <Icon className="w-4 h-4 mr-2" />
@@ -256,9 +256,9 @@ export default function SettingsPage() {
 
         {/* Tab Content */}
         <div className="flex-1 p-8 pt-0 overflow-y-auto">
-          {activeTab === "profile" && (
+          {activeTab === 'profile' && (
             <div className="max-w-2xl">
-              <Card className="modern-card bg-white/10 backdrop-blur-lg border-white/20">
+              <Card className="modern-card backdrop-blur-lg border-white/20">
                 <CardHeader>
                   <CardTitle className="text-xl text-white flex items-center">
                     <User className="w-6 h-6 mr-2 text-purple-400" />
@@ -325,9 +325,9 @@ export default function SettingsPage() {
             </div>
           )}
 
-          {activeTab === "business" && (
+          {activeTab === 'business' && (
             <div className="max-w-2xl">
-              <Card className="modern-card bg-white/10 backdrop-blur-lg border-white/20">
+              <Card className="modern-card backdrop-blur-lg border-white/20">
                 <CardHeader>
                   <CardTitle className="text-xl text-white flex items-center">
                     <Building className="w-6 h-6 mr-2 text-emerald-400" />
@@ -385,7 +385,7 @@ export default function SettingsPage() {
                             ...profileForm,
                             publicUrlSlug: e.target.value
                               .toLowerCase()
-                              .replace(/[^a-z0-9-]/g, "-"),
+                              .replace(/[^a-z0-9-]/g, '-'),
                           })
                         }
                         className="bg-white/10 border-white/30 text-white placeholder-purple-300 focus:border-cyan-400"
@@ -401,9 +401,9 @@ export default function SettingsPage() {
             </div>
           )}
 
-          {activeTab === "hours" && (
+          {activeTab === 'hours' && (
             <div className="max-w-2xl">
-              <Card className="modern-card bg-white/10 backdrop-blur-lg border-white/20">
+              <Card className="modern-card backdrop-blur-lg border-white/20">
                 <CardHeader>
                   <CardTitle className="text-xl text-white flex items-center">
                     <Clock className="w-6 h-6 mr-2 text-amber-400" />
@@ -434,7 +434,7 @@ export default function SettingsPage() {
                         <div className="flex items-center space-x-2 flex-1">
                           <Input
                             type="time"
-                            value={workingHours[day]?.start || "09:00"}
+                            value={workingHours[day]?.start || '09:00'}
                             onChange={(e) =>
                               setWorkingHours({
                                 ...workingHours,
@@ -449,7 +449,7 @@ export default function SettingsPage() {
                           <span className="text-purple-200">to</span>
                           <Input
                             type="time"
-                            value={workingHours[day]?.end || "17:00"}
+                            value={workingHours[day]?.end || '17:00'}
                             onChange={(e) =>
                               setWorkingHours({
                                 ...workingHours,
@@ -475,9 +475,9 @@ export default function SettingsPage() {
             </div>
           )}
 
-          {activeTab === "notifications" && (
+          {activeTab === 'notifications' && (
             <div className="max-w-2xl">
-              <Card className="modern-card bg-white/10 backdrop-blur-lg border-white/20">
+              <Card className="modern-card backdrop-blur-lg border-white/20">
                 <CardHeader>
                   <CardTitle className="text-xl text-white flex items-center">
                     <Bell className="w-6 h-6 mr-2 text-cyan-400" />
