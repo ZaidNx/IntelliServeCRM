@@ -110,6 +110,16 @@
   ) !important;
 }
 
+/* Force navy-purple-green gradient for appointment listing cards */
+.modern-card.bg-gradient-to-br.from-yellow-300.to-green-400 {
+  background: linear-gradient(
+    135deg,
+    #0f172a 0%,
+    #7c3aed 50%,
+    #34d399 100%
+  ) !important;
+}
+
 .gradient-primary {
   background: var(--gradient-primary);
 }
