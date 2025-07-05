@@ -1,19 +1,19 @@
-import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import { useState, useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Sidebar } from "@/components/sidebar-new";
-import { useAuth } from "@/hooks/useAuth";
-import { getAuthHeaders } from "@/lib/auth";
-import { useToast } from "@/hooks/use-toast";
+} from '@/components/ui/dialog';
+import { Sidebar } from '@/components/sidebar-new';
+import { useAuth } from '@/hooks/useAuth';
+import { getAuthHeaders } from '@/lib/auth';
+import { useToast } from '@/hooks/use-toast';
 import {
   Wrench,
   Plus,
@@ -27,7 +27,7 @@ import {
   Award,
   Target,
   BarChart3,
-} from "lucide-react";
+} from 'lucide-react';
 
 interface Service {
   _id: string;
@@ -44,10 +44,10 @@ export default function Services() {
   const [showModal, setShowModal] = useState(false);
   const [editingService, setEditingService] = useState<Service | null>(null);
   const [serviceForm, setServiceForm] = useState({
-    name: "",
+    name: '',
     durationMinutes: 60,
     price: 0,
-    description: "",
+    description: '',
   });
   const { user } = useAuth();
   const { toast } = useToast();
@@ -58,7 +58,7 @@ export default function Services() {
 
   const fetchServices = async () => {
     try {
-      const response = await fetch("/api/services", {
+      const response = await fetch('/api/services', {
         headers: getAuthHeaders(),
       });
       if (response.ok) {
@@ -66,7 +66,7 @@ export default function Services() {
         setServices(data);
       }
     } catch (error) {
-      console.error("Error fetching services:", error);
+      console.error('Error fetching services:', error);
     } finally {
       setLoading(false);
     }
@@ -78,69 +78,71 @@ export default function Services() {
     try {
       const url = editingService
         ? `/api/services/${editingService._id}`
-        : "/api/services";
-      const method = editingService ? "PUT" : "POST";
+        : '/api/services';
+      const method = editingService ? 'PUT' : 'POST';
 
       const response = await fetch(url, {
         method,
         headers: {
           ...getAuthHeaders(),
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(serviceForm),
       });
 
       if (response.ok) {
         toast({
-          title: editingService ? "Service updated" : "Service created",
-          description: `${serviceForm.name} has been ${editingService ? "updated" : "added"} successfully.`,
+          title: editingService ? 'Service updated' : 'Service created',
+          description: `${serviceForm.name} has been ${
+            editingService ? 'updated' : 'added'
+          } successfully.`,
         });
         fetchServices();
         setShowModal(false);
         resetForm();
       } else {
         toast({
-          title: "Error",
-          description: "Failed to save service. Please try again.",
-          variant: "destructive",
+          title: 'Error',
+          description: 'Failed to save service. Please try again.',
+          variant: 'destructive',
         });
       }
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to save service. Please try again.",
-        variant: "destructive",
+        title: 'Error',
+        description: 'Failed to save service. Please try again.',
+        variant: 'destructive',
       });
     }
   };
 
   const handleDelete = async (serviceId: string) => {
-    if (!confirm("Are you sure you want to delete this service?")) return;
+    if (!confirm('Are you sure you want to delete this service?')) return;
 
     try {
       const response = await fetch(`/api/services/${serviceId}`, {
-        method: "DELETE",
+        method: 'DELETE',
         headers: getAuthHeaders(),
       });
 
       if (response.ok) {
         toast({
-          title: "Service deleted",
-          description: "The service has been removed successfully.",
+          title: 'Service deleted',
+          description: 'The service has been removed successfully.',
         });
         fetchServices();
       } else {
         toast({
-          title: "Error",
-          description: "Failed to delete service. Please try again.",
-          variant: "destructive",
+          title: 'Error',
+          description: 'Failed to delete service. Please try again.',
+          variant: 'destructive',
         });
       }
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to delete service. Please try again.",
-        variant: "destructive",
+        title: 'Error',
+        description: 'Failed to delete service. Please try again.',
+        variant: 'destructive',
       });
     }
   };
@@ -151,7 +153,7 @@ export default function Services() {
       name: service.name,
       durationMinutes: service.durationMinutes,
       price: service.price,
-      description: service.description || "",
+      description: service.description || '',
     });
     setShowModal(true);
   };
@@ -159,10 +161,10 @@ export default function Services() {
   const resetForm = () => {
     setEditingService(null);
     setServiceForm({
-      name: "",
+      name: '',
       durationMinutes: 60,
       price: 0,
-      description: "",
+      description: '',
     });
   };
 
@@ -171,18 +173,18 @@ export default function Services() {
     services.length > 0
       ? Math.round(
           services.reduce((sum, service) => sum + service.price, 0) /
-            services.length,
+            services.length
         )
       : 0;
   const totalRevenue = services.reduce(
     (sum, service) => sum + service.price,
-    0,
+    0
   );
   const averageDuration =
     services.length > 0
       ? Math.round(
           services.reduce((sum, service) => sum + service.durationMinutes, 0) /
-            services.length,
+            services.length
         )
       : 0;
 
@@ -240,7 +242,7 @@ export default function Services() {
         {/* Stats Cards */}
         <div className="p-8 pb-0">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <Card className="modern-card bg-gradient-to-br from-black-900/20 to-indigo-900/20 backdrop-blur-lg border-white/20">
+            <Card className="modern-card bg-transparent bg-gradient-to-br from-yellow-300 to-red-400 backdrop-blur-lg border-white/20">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
@@ -261,59 +263,59 @@ export default function Services() {
               </CardContent>
             </Card>
 
-            <Card className="modern-card bg-gradient-to-br from-emerald-600/20 to-teal-600/20 backdrop-blur-lg border-white/20">
+            <Card className="modern-card bg-transparent bg-gradient-to-br from-yellow-300 to-red-400 backdrop-blur-lg border-white/20">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-emerald-200 text-sm font-medium">
+                    <p className="text-purple-200 text-sm font-medium">
                       Average Price
                     </p>
                     <p className="text-3xl font-bold text-white">
                       ${averagePrice}
                     </p>
-                    <p className="text-xs text-emerald-300 mt-1">Per service</p>
+                    <p className="text-xs text-purple-300 mt-1">Per service</p>
                   </div>
-                  <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center">
+                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center">
                     <DollarSign className="w-6 h-6 text-white" />
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="modern-card bg-gradient-to-br from-amber-600/20 to-orange-600/20 backdrop-blur-lg border-white/20">
+            <Card className="modern-card bg-transparent bg-gradient-to-br from-yellow-300 to-red-400 backdrop-blur-lg border-white/20">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-amber-200 text-sm font-medium">
+                    <p className="text-purple-200 text-sm font-medium">
                       Avg Duration
                     </p>
                     <p className="text-3xl font-bold text-white">
                       {averageDuration}m
                     </p>
-                    <p className="text-xs text-amber-300 mt-1">Per service</p>
+                    <p className="text-xs text-purple-300 mt-1">Per service</p>
                   </div>
-                  <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center">
+                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center">
                     <Clock className="w-6 h-6 text-white" />
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="modern-card bg-gradient-to-br from-cyan-600/20 to-blue-600/20 backdrop-blur-lg border-white/20">
+            <Card className="modern-card bg-transparent bg-gradient-to-br from-yellow-300 to-red-400 backdrop-blur-lg border-white/20">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-cyan-200 text-sm font-medium">
+                    <p className="text-purple-200 text-sm font-medium">
                       Total Value
                     </p>
                     <p className="text-3xl font-bold text-white">
                       ${totalRevenue}
                     </p>
-                    <p className="text-xs text-cyan-300 mt-1">
+                    <p className="text-xs text-purple-300 mt-1">
                       Service portfolio
                     </p>
                   </div>
-                  <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center">
+                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center">
                     <BarChart3 className="w-6 h-6 text-white" />
                   </div>
                 </div>
@@ -325,7 +327,7 @@ export default function Services() {
         {/* Services List */}
         <div className="flex-1 p-8 pt-0 overflow-y-auto">
           {services.length === 0 ? (
-            <Card className="modern-card bg-purple/10 backdrop-blur-lg border-white/20">
+            <Card className="modern-card bg-transparent bg-gradient-to-br from-yellow-300 to-red-400 backdrop-blur-lg border-white/20">
               <CardContent className="p-12 text-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
                   <Wrench className="w-8 h-8 text-white" />
@@ -353,7 +355,7 @@ export default function Services() {
               {services.map((service) => (
                 <Card
                   key={service._id}
-                  className="modern-card bg-white/10 backdrop-blur-lg border-white/20 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group"
+                  className="modern-card bg-transparent bg-gradient-to-br from-yellow-300 to-red-400 backdrop-blur-lg border-white/20 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group"
                 >
                   <CardHeader className="pb-4">
                     <div className="flex items-start justify-between">
@@ -366,7 +368,7 @@ export default function Services() {
                             {service.name}
                           </CardTitle>
                           <p className="text-purple-200 text-sm">
-                            Created{" "}
+                            Created{' '}
                             {new Date(service.createdAt).toLocaleDateString()}
                           </p>
                         </div>
@@ -435,7 +437,7 @@ export default function Services() {
                       <span className="font-medium text-white">
                         $
                         {Math.round(
-                          (service.price / service.durationMinutes) * 60,
+                          (service.price / service.durationMinutes) * 60
                         )}
                         /hr
                       </span>
@@ -453,7 +455,7 @@ export default function Services() {
         <DialogContent className="bg-slate-900 border-white/20 text-white max-w-md">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold text-center">
-              {editingService ? "Edit Service" : "Add New Service"}
+              {editingService ? 'Edit Service' : 'Add New Service'}
             </DialogTitle>
           </DialogHeader>
 
@@ -548,7 +550,7 @@ export default function Services() {
                 Cancel
               </Button>
               <Button type="submit" className="flex-1 btn-gradient">
-                {editingService ? "Update Service" : "Create Service"}
+                {editingService ? 'Update Service' : 'Create Service'}
               </Button>
             </div>
           </form>

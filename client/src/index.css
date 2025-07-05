@@ -99,6 +99,17 @@
   ) !important;
 }
 
+/* Light yellow to light red gradient for services page */
+.modern-card.bg-gradient-to-br.from-yellow-300.to-red-400 {
+  background: linear-gradient(
+    135deg,
+    #000000 0%,
+    #7c3aed 30%,
+    #7c3aed 70%,
+    #ec4899 100%
+  ) !important;
+}
+
 .gradient-primary {
   background: var(--gradient-primary);
 }
