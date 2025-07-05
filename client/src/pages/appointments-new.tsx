@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Sidebar } from "@/components/sidebar-new";
-import { useAuth } from "@/hooks/useAuth";
-import { getAuthHeaders } from "@/lib/auth";
+import { useState, useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Sidebar } from '@/components/sidebar-new';
+import { useAuth } from '@/hooks/useAuth';
+import { getAuthHeaders } from '@/lib/auth';
 import {
   Calendar,
   Clock,
@@ -23,19 +23,19 @@ import {
   Search,
   Plus,
   X,
-} from "lucide-react";
+} from 'lucide-react';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 
 interface Appointment {
   _id: string;
   date: string;
   time: string;
-  status: "Pending" | "Confirmed" | "Rejected" | "Completed";
+  status: 'Pending' | 'Confirmed' | 'Rejected' | 'Completed';
   notes?: string;
   customer: {
     name: string;
@@ -55,8 +55,8 @@ export default function Appointments() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [filter, setFilter] = useState<
-    "all" | "pending" | "confirmed" | "completed"
-  >("all");
+    'all' | 'pending' | 'confirmed' | 'completed'
+  >('all');
   const { user } = useAuth();
 
   useEffect(() => {
@@ -66,9 +66,9 @@ export default function Appointments() {
   useEffect(() => {
     const fetchAll = async () => {
       const [appointmentsRes, customersRes, servicesRes] = await Promise.all([
-        fetch("/api/appointments", { headers: getAuthHeaders() }),
-        fetch("/api/customers", { headers: getAuthHeaders() }),
-        fetch("/api/services", { headers: getAuthHeaders() }),
+        fetch('/api/appointments', { headers: getAuthHeaders() }),
+        fetch('/api/customers', { headers: getAuthHeaders() }),
+        fetch('/api/services', { headers: getAuthHeaders() }),
       ]);
 
       const [appointments, customers, services] = await Promise.all([
@@ -97,7 +97,7 @@ export default function Appointments() {
 
   const fetchAppointments = async () => {
     try {
-      const response = await fetch("/api/appointments", {
+      const response = await fetch('/api/appointments', {
         headers: getAuthHeaders(),
       });
       if (response.ok) {
@@ -105,7 +105,7 @@ export default function Appointments() {
         setAppointments(data);
       }
     } catch (error) {
-      console.error("Error fetching appointments:", error);
+      console.error('Error fetching appointments:', error);
     } finally {
       setLoading(false);
     }
@@ -113,14 +113,14 @@ export default function Appointments() {
 
   const updateAppointmentStatus = async (
     appointmentId: string,
-    status: string,
+    status: string
   ) => {
     try {
       const response = await fetch(`/api/appointments/${appointmentId}`, {
-        method: "PUT",
+        method: 'PUT',
         headers: {
           ...getAuthHeaders(),
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ status }),
       });
@@ -129,19 +129,19 @@ export default function Appointments() {
         fetchAppointments();
       }
     } catch (error) {
-      console.error("Error updating appointment:", error);
+      console.error('Error updating appointment:', error);
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case "Pending":
+      case 'Pending':
         return <AlertCircle className="w-4 h-4" />;
-      case "Confirmed":
+      case 'Confirmed':
         return <CheckCircle className="w-4 h-4" />;
-      case "Completed":
+      case 'Completed':
         return <Star className="w-4 h-4" />;
-      case "Rejected":
+      case 'Rejected':
         return <XCircle className="w-4 h-4" />;
       default:
         return <Clock className="w-4 h-4" />;
@@ -150,45 +150,45 @@ export default function Appointments() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Pending":
-        return "from-amber-500 to-orange-500";
-      case "Confirmed":
-        return "from-emerald-500 to-teal-500";
-      case "Completed":
-        return "from-purple-500 to-indigo-500";
-      case "Rejected":
-        return "from-red-500 to-pink-500";
+      case 'Pending':
+        return 'from-amber-500 to-orange-500';
+      case 'Confirmed':
+        return 'from-emerald-500 to-teal-500';
+      case 'Completed':
+        return 'from-purple-500 to-indigo-500';
+      case 'Rejected':
+        return 'from-red-500 to-pink-500';
       default:
-        return "from-gray-500 to-slate-500";
+        return 'from-gray-500 to-slate-500';
     }
   };
 
   const filteredAppointments = appointments.filter((appointment) => {
-    if (filter === "all") return true;
+    if (filter === 'all') return true;
     return appointment.status.toLowerCase() === filter;
   });
 
   const getInitials = (name: string) => {
-    if (!name) return "N/A";
+    if (!name) return 'N/A';
     return name
-      .split(" ")
+      .split(' ')
       .map((n) => n[0])
-      .join("")
+      .join('')
       .substring(0, 2)
       .toUpperCase();
   };
 
   const todayAppointments = appointments.filter((app) => {
-    const today = new Date().toISOString().split("T")[0];
+    const today = new Date().toISOString().split('T')[0];
     return app.date === today;
   });
 
   const upcomingAppointments = appointments.filter((app) => {
-    const today = new Date().toISOString().split("T")[0];
+    const today = new Date().toISOString().split('T')[0];
     return app.date > today;
   });
 
-  console.log("filteredAppointments", filteredAppointments);
+  console.log('filteredAppointments', filteredAppointments);
 
   if (loading) {
     return (
@@ -238,7 +238,7 @@ export default function Appointments() {
         {/* Stats Cards */}
         <div className="p-8 pb-0">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <Card className="modern-card !bg-transparent bg-gradient-to-br from-purple-600/20 to-indigo-600/20 backdrop-blur-lg border-white/20">
+            <Card className="modern-card bg-transparent bg-gradient-to-br from-yellow-300 to-red-400 backdrop-blur-lg border-white/20">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
@@ -254,58 +254,56 @@ export default function Appointments() {
               </CardContent>
             </Card>
 
-            <Card className="modern-card !bg-transparent bg-gradient-to-br from-emerald-600/20 to-teal-600/20 backdrop-blur-lg border-white/20">
+            <Card className="modern-card bg-transparent bg-gradient-to-br from-yellow-300 to-red-400 backdrop-blur-lg border-white/20">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-emerald-200 text-sm font-medium">
-                      Today
-                    </p>
+                    <p className="text-purple-200 text-sm font-medium">Today</p>
                     <p className="text-3xl font-bold text-white">
                       {todayAppointments.length}
                     </p>
                   </div>
-                  <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center">
+                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center">
                     <Clock className="w-6 h-6 text-white" />
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="modern-card !bg-transparent bg-gradient-to-br from-cyan-600/20 to-blue-600/20 backdrop-blur-lg border-white/20">
+            <Card className="modern-card bg-transparent bg-gradient-to-br from-yellow-300 to-red-400 backdrop-blur-lg border-white/20">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-cyan-200 text-sm font-medium">
+                    <p className="text-purple-200 text-sm font-medium">
                       Upcoming
                     </p>
                     <p className="text-3xl font-bold text-white">
                       {upcomingAppointments.length}
                     </p>
                   </div>
-                  <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center">
+                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center">
                     <TrendingUp className="w-6 h-6 text-white" />
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="modern-card !bg-transparent bg-gradient-to-br from-amber-600/20 to-orange-600/20 backdrop-blur-lg border-white/20">
+            <Card className="modern-card bg-transparent bg-gradient-to-br from-yellow-300 to-red-400 backdrop-blur-lg border-white/20">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-amber-200 text-sm font-medium">
+                    <p className="text-purple-200 text-sm font-medium">
                       Revenue
                     </p>
                     <p className="text-3xl font-bold text-white">
                       $
                       {appointments.reduce(
                         (sum, app) => sum + (app?.service?.price ?? 1),
-                        0,
+                        0
                       )}
                     </p>
                   </div>
-                  <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center">
+                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center">
                     <DollarSign className="w-6 h-6 text-white" />
                   </div>
                 </div>
@@ -318,10 +316,10 @@ export default function Appointments() {
         <div className="px-8 pb-4">
           <div className="flex space-x-4">
             {[
-              { key: "all", label: "All Appointments", icon: Calendar },
-              { key: "pending", label: "Pending", icon: AlertCircle },
-              { key: "confirmed", label: "Confirmed", icon: CheckCircle },
-              { key: "completed", label: "Completed", icon: Star },
+              { key: 'all', label: 'All Appointments', icon: Calendar },
+              { key: 'pending', label: 'Pending', icon: AlertCircle },
+              { key: 'confirmed', label: 'Confirmed', icon: CheckCircle },
+              { key: 'completed', label: 'Completed', icon: Star },
             ].map((filterOption) => {
               const Icon = filterOption.icon;
               const isActive = filter === filterOption.key;
@@ -329,11 +327,11 @@ export default function Appointments() {
                 <Button
                   key={filterOption.key}
                   onClick={() => setFilter(filterOption.key as any)}
-                  variant={isActive ? "default" : "outline"}
+                  variant={isActive ? 'default' : 'outline'}
                   className={`${
                     isActive
-                      ? "btn-gradient"
-                      : "bg-white/10 border-white/30 text-white hover:bg-white/20"
+                      ? 'btn-gradient'
+                      : 'bg-white/10 border-white/30 text-white hover:bg-white/20'
                   } rounded-xl`}
                 >
                   <Icon className="w-4 h-4 mr-2" />
@@ -348,7 +346,7 @@ export default function Appointments() {
         <div className="flex-1 p-8 pt-0 overflow-y-auto">
           {filteredAppointments.length === 0 ? (
             <Card className="modern-card !bg-transparent bg-gradient-to-br from-purple-700/30 to-cyan-700/20 backdrop-blur-lg border-white/20">
-              {" "}
+              {' '}
               <CardContent className="p-12 text-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
                   <Calendar className="w-8 h-8 text-white" />
@@ -370,26 +368,26 @@ export default function Appointments() {
               {filteredAppointments.map((appointment) => (
                 <Card
                   key={appointment._id}
-                  className="modern-card !bg-transparent bg-gradient-to-br from-purple-800/30 to-indigo-700/30 backdrop-blur-lg border-white/20 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
+                  className="modern-card bg-gradient-to-br from-yellow-300 to-green-400 backdrop-blur-lg border-white/20 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
                 >
                   <CardContent className="p-6">
                     <div className="flex items-start justify-between">
                       <div className="flex items-start space-x-4">
                         <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-2xl flex items-center justify-center text-white font-bold text-lg">
-                          {getInitials(appointment.customer?.name || "Unknown")}
+                          {getInitials(appointment.customer?.name || 'Unknown')}
                         </div>
                         <div className="flex-1">
                           <div className="flex items-start justify-between mb-3">
                             <div>
                               <h3 className="font-semibold text-xl text-white mb-1">
                                 {appointment.customer?.name ||
-                                  "Unknown Customer"}
+                                  'Unknown Customer'}
                               </h3>
                               <div className="flex items-center space-x-4 text-sm text-purple-200">
                                 <div className="flex items-center">
                                   <Calendar className="w-4 h-4 mr-1" />
                                   {new Date(
-                                    appointment.date,
+                                    appointment.date
                                   ).toLocaleDateString()}
                                 </div>
                                 <div className="flex items-center">
@@ -399,7 +397,9 @@ export default function Appointments() {
                               </div>
                             </div>
                             <Badge
-                              className={`bg-gradient-to-r ${getStatusColor(appointment.status)} text-white border-0 px-3 py-1 rounded-full`}
+                              className={`bg-gradient-to-r ${getStatusColor(
+                                appointment.status
+                              )} text-white border-0 px-3 py-1 rounded-full`}
                             >
                               <div className="flex items-center space-x-1">
                                 {getStatusIcon(appointment.status)}
@@ -413,7 +413,7 @@ export default function Appointments() {
                               <div className="flex items-center space-x-2">
                                 <Zap className="w-4 h-4 text-cyan-400" />
                                 <span className="text-white font-medium">
-                                  {appointment.service?.name ?? "Miscellaneous"}
+                                  {appointment.service?.name ?? 'Miscellaneous'}
                                 </span>
                               </div>
                               <div className="flex items-center space-x-2">
@@ -425,7 +425,7 @@ export default function Appointments() {
                               <div className="flex items-center space-x-2">
                                 <Clock className="w-4 h-4 text-amber-400" />
                                 <span className="text-white">
-                                  {appointment.service?.durationMinutes ?? 99}{" "}
+                                  {appointment.service?.durationMinutes ?? 99}{' '}
                                   min
                                 </span>
                               </div>
@@ -455,13 +455,13 @@ export default function Appointments() {
                             </div>
                           )}
 
-                          {appointment.status === "Pending" && (
+                          {appointment.status === 'Pending' && (
                             <div className="flex space-x-2">
                               <Button
                                 onClick={() =>
                                   updateAppointmentStatus(
                                     appointment._id,
-                                    "Confirmed",
+                                    'Confirmed'
                                   )
                                 }
                                 size="sm"
@@ -474,7 +474,7 @@ export default function Appointments() {
                                 onClick={() =>
                                   updateAppointmentStatus(
                                     appointment._id,
-                                    "Rejected",
+                                    'Rejected'
                                   )
                                 }
                                 size="sm"
@@ -486,12 +486,12 @@ export default function Appointments() {
                             </div>
                           )}
 
-                          {appointment.status === "Confirmed" && (
+                          {appointment.status === 'Confirmed' && (
                             <Button
                               onClick={() =>
                                 updateAppointmentStatus(
                                   appointment._id,
-                                  "Completed",
+                                  'Completed'
                                 )
                               }
                               size="sm"
@@ -528,18 +528,18 @@ export default function Appointments() {
               <p>
                 <span className="font-semibold text-purple-600">
                   👨‍💻 Zaid Naeem
-                </span>{" "}
+                </span>{' '}
                 — Full-stack Mobile and Web Application developer. Tech stack:
                 React, React Native, MERN & Ruby on Rails developer
               </p>
               <p>
-                <span className="font-medium text-purple-500">📧 Email:</span>{" "}
+                <span className="font-medium text-purple-500">📧 Email:</span>{' '}
                 <a href="mailto:zaid.ch20@gmail.com" className="underline">
                   zaid.ch20@gmail.com
                 </a>
               </p>
               <p>
-                <span className="font-medium text-purple-500">📞 Phone:</span>{" "}
+                <span className="font-medium text-purple-500">📞 Phone:</span>{' '}
                 <a href="tel:+923361435189" className="underline">
                   +92 336 1435189
                 </a>
@@ -547,7 +547,7 @@ export default function Appointments() {
               <p>
                 <span className="font-medium text-purple-500">
                   🔗 LinkedIn:
-                </span>{" "}
+                </span>{' '}
                 <a
                   href="https://www.linkedin.com/in/zaid-naeem-1b24611a8/"
                   target="_blank"
