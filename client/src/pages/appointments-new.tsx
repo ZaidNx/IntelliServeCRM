@@ -52,6 +52,7 @@ interface Appointment {
 export default function Appointments() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
+  const [allDataLoading, setAllDataLoading] = useState(true); // NEW
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [filter, setFilter] = useState<
@@ -65,6 +66,7 @@ export default function Appointments() {
 
   useEffect(() => {
     const fetchAll = async () => {
+      setAllDataLoading(true); // NEW
       const [appointmentsRes, customersRes, servicesRes] = await Promise.all([
         fetch('/api/appointments', { headers: getAuthHeaders() }),
         fetch('/api/customers', { headers: getAuthHeaders() }),
@@ -87,6 +89,7 @@ export default function Appointments() {
       }));
 
       setAppointments(enrichedAppointments);
+      setAllDataLoading(false); // NEW
     };
 
     fetchAll();
@@ -190,7 +193,7 @@ export default function Appointments() {
 
   console.log('filteredAppointments', filteredAppointments);
 
-  if (loading) {
+  if (loading || allDataLoading) {
     return (
       <div className="flex h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900">
         <Sidebar />
@@ -380,8 +383,7 @@ export default function Appointments() {
                           <div className="flex items-start justify-between mb-3">
                             <div>
                               <h3 className="font-semibold text-xl text-white mb-1">
-                                {appointment.customer?.name ||
-                                  'Unknown Customer'}
+                                {appointment.customer?.name}
                               </h3>
                               <div className="flex items-center space-x-4 text-sm text-purple-200">
                                 <div className="flex items-center">
