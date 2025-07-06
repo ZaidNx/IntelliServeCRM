@@ -225,6 +225,17 @@ export default function Landing() {
                 Contact
               </button>
               <Button
+                onClick={() =>
+                  window.open(
+                    'https://www.youtube.com/watch?v=nsMJt55dDmM',
+                    '_blank'
+                  )
+                }
+                className="btn-gradient"
+              >
+                View Demo
+              </Button>
+              <Button
                 onClick={() => setShowLogin(true)}
                 variant="ghost"
                 className="text-purple-200 hover:text-white hover:bg-white/10"
@@ -255,31 +266,53 @@ export default function Landing() {
             </div>
           </div>
 
+          {/* Mobile Menu */}
           {showMobileMenu && (
-            <div className="md:hidden pb-6 space-y-4">
-              <Button
-                variant="ghost"
-                className="w-full justify-start text-purple-200"
-                onClick={() => scrollToSection('features')}
-              >
-                Features
-              </Button>
-              <Button
-                variant="ghost"
-                className="w-full justify-start text-purple-200"
-                onClick={() => scrollToSection('contact')}
-              >
-                Contact
-              </Button>
-              <Button onClick={() => setShowLogin(true)} className="w-full">
-                Sign In
-              </Button>
-              <Button
-                onClick={() => setShowRegister(true)}
-                className="w-full btn-gradient"
-              >
-                Get Started
-              </Button>
+            <div className="md:hidden py-4 border-t border-white/10">
+              <div className="flex flex-col space-y-2">
+                <button
+                  onClick={() => scrollToSection('features')}
+                  className="text-left text-purple-200 hover:text-white transition-colors py-2"
+                >
+                  Features
+                </button>
+                <button
+                  onClick={() => scrollToSection('pricing')}
+                  className="text-left text-purple-200 hover:text-white transition-colors py-2"
+                >
+                  Pricing
+                </button>
+                <button
+                  onClick={() => scrollToSection('contact')}
+                  className="text-left text-purple-200 hover:text-white transition-colors py-2"
+                >
+                  Contact
+                </button>
+                <Button
+                  onClick={() =>
+                    window.open(
+                      'https://www.youtube.com/watch?v=nsMJt55dDmM',
+                      '_blank'
+                    )
+                  }
+                  className="btn-gradient"
+                >
+                  View Demo
+                </Button>
+                <Button
+                  onClick={() => setShowLogin(true)}
+                  variant="ghost"
+                  className="justify-start text-purple-200 hover:text-white hover:bg-white/10"
+                >
+                  Sign In
+                </Button>
+                <Button
+                  onClick={() => setShowRegister(true)}
+                  className="btn-gradient"
+                >
+                  Get Started
+                </Button>
+              </div>
             </div>
           )}
         </div>
@@ -324,7 +357,7 @@ export default function Landing() {
               <Button
                 onClick={() => {
                   window.open(
-                    'https://www.youtube.com/@zaid5222',
+                    'https://www.youtube.com/watch?v=nsMJt55dDmM',
                     '_blank',
                     'noopener,noreferrer'
                   );
