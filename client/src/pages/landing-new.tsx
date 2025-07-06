@@ -295,7 +295,8 @@ export default function Landing() {
                       '_blank'
                     )
                   }
-                  className="btn-gradient"
+                  variant="ghost"
+                  className="justify-start text-purple-200 hover:text-white hover:bg-white/10"
                 >
                   View Demo
                 </Button>
